@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Tamagochi</string>
+
+    <!--Main-->
+    <string name="tvTitle">Tamagochi App</string>
+
+    <string name="btnPet">mit "Name" fortfahren</string>
+    <string name="btnCreate">Neues Haustier</string>
+
+    <!--Bedroom-->
+    <string name="tvBedroom">Schlafzimmer</string>
+
+    <!--Kitchen-->
+    <string name="tvKitchen">Küche</string>
+
+    <!--Bathroom-->
+    <string name="tvBathroom">Badezimmer</string>
+
+    <!--Playroom-->
+    <string name="tvPlayroom">Spielzimmer</string>
+
+
 </resources>
