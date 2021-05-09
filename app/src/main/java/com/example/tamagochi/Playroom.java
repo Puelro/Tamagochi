@@ -36,4 +36,7 @@ public class Playroom extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() { }
+
 }

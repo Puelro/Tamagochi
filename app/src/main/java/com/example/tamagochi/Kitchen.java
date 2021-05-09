@@ -36,4 +36,7 @@ public class Kitchen extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() { }
+
 }

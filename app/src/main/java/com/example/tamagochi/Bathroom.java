@@ -37,4 +37,7 @@ public class Bathroom extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() { }
+
 }

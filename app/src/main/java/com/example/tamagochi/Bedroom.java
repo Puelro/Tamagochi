@@ -37,4 +37,6 @@ public class Bedroom extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() { }
 }
