@@ -38,5 +38,9 @@ public class Bedroom extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() { }
+    public void onBackPressed() {
+        Intent intent = new Intent(Bedroom.this,MainActivity.class);
+        startActivity(intent);
+    }
+
 }

@@ -37,6 +37,9 @@ public class Playroom extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() { }
+    public void onBackPressed() {
+        Intent intent = new Intent(Playroom.this,MainActivity.class);
+        startActivity(intent);
+    }
 
 }

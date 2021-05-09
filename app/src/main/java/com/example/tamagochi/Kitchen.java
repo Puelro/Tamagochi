@@ -37,6 +37,9 @@ public class Kitchen extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() { }
+    public void onBackPressed() {
+        Intent intent = new Intent(Kitchen.this,MainActivity.class);
+        startActivity(intent);
+    }
 
 }
