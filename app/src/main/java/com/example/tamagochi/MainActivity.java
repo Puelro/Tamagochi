@@ -17,11 +17,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        buttonPet = findViewById(R.id.btnPet);
+        buttonPet = findViewById(R.id.btnContinue);
         buttonPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Bedroom.class);
+                Intent intent = new Intent(MainActivity.this, Game.class);
                 startActivity(intent);
             }
         });

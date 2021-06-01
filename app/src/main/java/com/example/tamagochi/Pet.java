@@ -16,6 +16,10 @@ public class Pet {
     private int awayTime;
     private boolean isAlive;
 
+    public Pet(){
+
+    }
+
     /**
      * Constructor sets values
      * @param _name the Pets given Name
@@ -100,6 +104,8 @@ public class Pet {
         updateHappiness(-time);
         updateHunger(-time);
     }
+
+    //TODO save() - Methode
 
     /** all get-Methods */
     public String getName() { return name; }
