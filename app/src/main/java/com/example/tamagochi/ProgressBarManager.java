@@ -5,11 +5,11 @@ import android.app.Activity;
 
 public class ProgressBarManager {
 
-    ProgressBar progressBarHunger;
-    ProgressBar progressBarEnergy;
-    ProgressBar progressBarCleanliness;
-    ProgressBar progressBarHappiness;
-    ProgressBar progressBarHealth;
+    private ProgressBar progressBarHunger;
+    private ProgressBar progressBarEnergy;
+    private ProgressBar progressBarCleanliness;
+    private ProgressBar progressBarHappiness;
+    private ProgressBar progressBarHealth;
 
     public ProgressBarManager(Activity _activity ){
         progressBarHunger = _activity.findViewById(R.id.progressBarHunger);
@@ -19,11 +19,19 @@ public class ProgressBarManager {
         progressBarCleanliness = _activity.findViewById(R.id.progressBarCleanliness);
         progressBarCleanliness.setMax(100);
         progressBarHappiness = _activity.findViewById(R.id.progressBarHappiness);
+        progressBarHappiness.setMax(100);
         progressBarHealth = _activity.findViewById(R.id.progressBarHealth);
+        progressBarHealth.setMax(100);
     }
 
-    public void updateProgressbarHunger(int _hunger){
-        progressBarHunger.setProgress(_hunger);
-    }
+    public void updateProgressbarHunger(int _hunger){ progressBarHunger.setProgress(_hunger); }
+
+    public void updateProgressbarEnergy(int _energy){ progressBarEnergy.setProgress(_energy); }
+
+    public void updateProgressbarCleanliness(int _cleanliness){ progressBarCleanliness.setProgress(_cleanliness); }
+
+    public void updateProgressbarHappiness(int _happiness){ progressBarHappiness.setProgress(_happiness); }
+
+    public void updateProgressbarHealth(int _health){ progressBarHealth.setProgress(_health); }
 
 }

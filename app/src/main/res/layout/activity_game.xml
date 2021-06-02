@@ -108,28 +108,47 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageButton
+            <Button
                 android:id="@+id/btnBedroom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/abc_vector_test" />
+                android:text="@string/tvBedroom" />
 
-            <TextView
-                android:id="@+id/tvKitchen"
+            <Button
+                android:id="@+id/btnKitchen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/tvKitchen" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/btnBathroom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:rotation="180"
-                app:srcCompat="@drawable/abc_vector_test" />
+                android:text="@string/tvBathroom" />
 
+            <Button
+                android:id="@+id/btnPlayroom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tvPlayroom" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvRoom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Raum" />
         </LinearLayout>
 
         <LinearLayout
