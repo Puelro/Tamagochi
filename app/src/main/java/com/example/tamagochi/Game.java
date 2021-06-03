@@ -16,15 +16,18 @@ public class Game extends AppCompatActivity {
 
     ProgressBarManager progressBarManager;
 
+    /**Number of food-supplies*/
     private int food;
 
+    /**TextView to indicate the current room*/
     private TextView textViewRoom;
 
-    private ImageButton buttonMenu;
+    /**Buttons*/
     private Button buttonBedroom;
     private Button buttonBathroom;
     private Button buttonPlayroom;
     private Button buttonKitchen;
+    private ImageButton buttonMenu;
     private ImageButton buttonFood;
     private ImageButton buttonStore;
     private ImageButton buttonSleep;
@@ -49,6 +52,8 @@ public class Game extends AppCompatActivity {
         progressBarManager = new ProgressBarManager(this);
         progressBarManager.updateProgressbarHunger(30);
 
+        updateProgressbarAll();
+
         //TODO In der Küche starten
         /**The Game starts in the Kitchen*/
         /*buttonKitchen.setEnabled(false);
@@ -71,15 +76,10 @@ public class Game extends AppCompatActivity {
         buttonBedroom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buttonKitchen.setEnabled(true);
+                enableAllRoomButtons();
                 buttonBedroom.setEnabled(false);
-                buttonBathroom.setEnabled(true);
-                buttonPlayroom.setEnabled(true);
-                buttonFood.setVisibility(View.INVISIBLE);
+                makeAllInteractionButtonsInvisible();
                 buttonSleep.setVisibility(View.VISIBLE);
-                buttonPlay.setVisibility(View.INVISIBLE);
-                buttonPet.setVisibility(View.INVISIBLE);
-                buttonWash.setVisibility(View.INVISIBLE);
                 textViewRoom.setText("Schlafzimmer");
 
             }
@@ -89,14 +89,9 @@ public class Game extends AppCompatActivity {
         buttonBathroom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buttonKitchen.setEnabled(true);
-                buttonBedroom.setEnabled(true);
+                enableAllRoomButtons();
                 buttonBathroom.setEnabled(false);
-                buttonPlayroom.setEnabled(true);
-                buttonFood.setVisibility(View.INVISIBLE);
-                buttonSleep.setVisibility(View.INVISIBLE);
-                buttonPlay.setVisibility(View.INVISIBLE);
-                buttonPet.setVisibility(View.INVISIBLE);
+                makeAllInteractionButtonsInvisible();
                 buttonWash.setVisibility(View.VISIBLE);
                 textViewRoom.setText("Badezimmer");
             }
@@ -106,15 +101,10 @@ public class Game extends AppCompatActivity {
         buttonKitchen.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                enableAllRoomButtons();
                 buttonKitchen.setEnabled(false);
-                buttonBedroom.setEnabled(true);
-                buttonBathroom.setEnabled(true);
-                buttonPlayroom.setEnabled(true);
+                makeAllInteractionButtonsInvisible();
                 buttonFood.setVisibility(View.VISIBLE);
-                buttonSleep.setVisibility(View.INVISIBLE);
-                buttonPlay.setVisibility(View.INVISIBLE);
-                buttonPet.setVisibility(View.INVISIBLE);
-                buttonWash.setVisibility(View.INVISIBLE);
                 textViewRoom.setText("Küche");
             }
         });
@@ -123,15 +113,11 @@ public class Game extends AppCompatActivity {
         buttonPlayroom.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                buttonKitchen.setEnabled(true);
-                buttonBedroom.setEnabled(true);
-                buttonBathroom.setEnabled(true);
+                enableAllRoomButtons();
                 buttonPlayroom.setEnabled(false);
-                buttonFood.setVisibility(View.INVISIBLE);
-                buttonSleep.setVisibility(View.INVISIBLE);
+                makeAllInteractionButtonsInvisible();
                 buttonPlay.setVisibility(View.VISIBLE);
                 buttonPet.setVisibility(View.VISIBLE);
-                buttonWash.setVisibility(View.INVISIBLE);
                 textViewRoom.setText("Spielzimmer");
             }
         });
@@ -144,8 +130,10 @@ public class Game extends AppCompatActivity {
         buttonFood.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                myPet.updateHunger(25);
-                progressBarManager.updateProgressbarHunger(25);
+                if(myPet.getHunger() < 100) {
+                    myPet.updateHunger(20);
+                    updateProgressbarAll();
+                }
             }
         });
 
@@ -169,7 +157,7 @@ public class Game extends AppCompatActivity {
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //TODO MiniGame
             }
         });
 
@@ -177,7 +165,8 @@ public class Game extends AppCompatActivity {
         buttonPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                myPet.updateHappiness(5);
+                updateProgressbarAll();
             }
         });
 
@@ -185,7 +174,8 @@ public class Game extends AppCompatActivity {
         buttonWash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                myPet.updateCleanliness(40);
+                updateProgressbarAll();
             }
         });
     }
@@ -199,6 +189,32 @@ public class Game extends AppCompatActivity {
         //alertDialog.setNeutralButtonIcon(getDrawable(R.drawable.download));
 
         alertDialog.create().show();
+    }
+
+    public void enableAllRoomButtons(){
+        buttonKitchen.setEnabled(true);
+        buttonBedroom.setEnabled(true);
+        buttonBathroom.setEnabled(true);
+        buttonPlayroom.setEnabled(true);
+    }
+
+    public void makeAllInteractionButtonsInvisible(){
+        buttonFood.setVisibility(View.INVISIBLE);
+        buttonSleep.setVisibility(View.INVISIBLE);
+        buttonPlay.setVisibility(View.INVISIBLE);
+        buttonPet.setVisibility(View.INVISIBLE);
+        buttonWash.setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * Update all Prgressbars
+     */
+    public void updateProgressbarAll(){
+        progressBarManager.updateProgressbarHunger(myPet.getHunger());
+        progressBarManager.updateProgressbarEnergy(myPet.getEnergy());
+        progressBarManager.updateProgressbarCleanliness(myPet.getCleanliness());
+        progressBarManager.updateProgressbarHappiness(myPet.getHappiness());
+        progressBarManager.updateProgressbarHealth(myPet.getHealth());
     }
 
     @Override

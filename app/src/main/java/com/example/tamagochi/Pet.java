@@ -81,7 +81,7 @@ public class Pet {
     public void updateHappiness(int play){
         if(happiness + play > 100)
             happiness = 100;
-        else if(happiness + play <0)
+        else if(happiness + play < 0)
             happiness = 0;
         else
             happiness += play;
