@@ -4,7 +4,7 @@
             android:innerRadiusRatio="2.0"
             android:shape="ring"
             android:thickness="10dp">
-            <solid android:color="#80ffd300" />
+            <solid android:color="#bfbfbf" />
             <corners android:radius="50dp"/>
         </shape>
     </item>
@@ -15,7 +15,7 @@
             android:innerRadiusRatio="2.0"
             android:shape="ring"
             android:thickness="10dp">
-            <solid android:color="#ff5a5d5a" />
+            <solid android:color="#00ff00" />
         </shape>
         <!--
         <scale

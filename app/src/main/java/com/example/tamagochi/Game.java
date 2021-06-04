@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -21,6 +22,9 @@ public class Game extends AppCompatActivity {
 
     /**TextView to indicate the current room*/
     private TextView textViewRoom;
+
+    /**LinearLayout to change the Background*/
+    LinearLayout root;
 
     /**Buttons*/
     private Button buttonBedroom;
@@ -48,6 +52,7 @@ public class Game extends AppCompatActivity {
         myPet = new Pet("Peter", 30,30,30,30,100,true,0);
 
         textViewRoom = findViewById(R.id.tvRoom);
+        root=(LinearLayout)findViewById(R.id.root);
 
         progressBarManager = new ProgressBarManager(this);
         progressBarManager.updateProgressbarHunger(30);
@@ -81,6 +86,7 @@ public class Game extends AppCompatActivity {
                 makeAllInteractionButtonsInvisible();
                 buttonSleep.setVisibility(View.VISIBLE);
                 textViewRoom.setText("Schlafzimmer");
+                root.setBackgroundResource(R.drawable.bedroom);
 
             }
         });
@@ -94,6 +100,7 @@ public class Game extends AppCompatActivity {
                 makeAllInteractionButtonsInvisible();
                 buttonWash.setVisibility(View.VISIBLE);
                 textViewRoom.setText("Badezimmer");
+                root.setBackgroundResource(R.drawable.bathroom);
             }
         });
 
@@ -106,6 +113,7 @@ public class Game extends AppCompatActivity {
                 makeAllInteractionButtonsInvisible();
                 buttonFood.setVisibility(View.VISIBLE);
                 textViewRoom.setText("Küche");
+                root.setBackgroundResource(R.drawable.kitchen);
             }
         });
 
@@ -119,6 +127,7 @@ public class Game extends AppCompatActivity {
                 buttonPlay.setVisibility(View.VISIBLE);
                 buttonPet.setVisibility(View.VISIBLE);
                 textViewRoom.setText("Spielzimmer");
+                root.setBackgroundResource(R.drawable.playroom);
             }
         });
 
