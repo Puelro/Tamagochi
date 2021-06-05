@@ -44,7 +44,7 @@ public class Pet {
         energy = 50;
         cleanliness = 50;
         happiness = 50;
-        health = 100;
+        health = 50;
         isAlive = _isAlive;
         awayTime = _awayTime;
     }

@@ -21,6 +21,9 @@ public class Game extends AppCompatActivity {
     /**Number of food-supplies*/
     private int food;
 
+    /**Number of potion-supplies*/
+    private int potion;
+
     /**Counter and Interval to reduce Pet-values*/
     int counter = 0;
     int interval = 10;
@@ -121,6 +124,7 @@ public class Game extends AppCompatActivity {
                 buttonKitchen.setEnabled(false);
                 makeAllInteractionButtonsInvisible();
                 buttonFood.setVisibility(View.VISIBLE);
+                buttonPotion.setVisibility(View.VISIBLE);
                 textViewRoom.setText("Küche");
                 root.setBackgroundResource(R.drawable.kitchen);
             }
@@ -155,12 +159,12 @@ public class Game extends AppCompatActivity {
             }
         });
 
-        buttonPotion = findViewById(R.id.btnPotion);
-        /*buttonPotion.setEnabled(false);
+       buttonPotion = findViewById(R.id.btnPotion);
+        /* buttonPotion.setEnabled(false);
         if(potion > 0){
             buttonPotion.setEnabled(true);
         }*/
-        buttonFood.setOnClickListener(new View.OnClickListener(){
+        buttonPotion.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(myPet.getHealth() < 100) {
@@ -259,6 +263,7 @@ public class Game extends AppCompatActivity {
         buttonPlay.setVisibility(View.INVISIBLE);
         buttonPet.setVisibility(View.INVISIBLE);
         buttonWash.setVisibility(View.INVISIBLE);
+        buttonPotion.setVisibility(View.INVISIBLE);
     }
 
     /**
