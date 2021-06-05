@@ -33,18 +33,11 @@ public class Pet {
      */
     public Pet(String _name, int _hunger, int _energy, int _cleanliness, int _happiness, int _health, boolean _isAlive, int _awayTime){
         name = _name;
-        /*hunger = _hunger;
+        hunger = _hunger;
         energy = _energy;
         cleanliness = _cleanliness;
         happiness = _happiness;
         health = _health;
-        isAlive = _isAlive;
-        awayTime = _awayTime;*/
-        hunger = 50;
-        energy = 50;
-        cleanliness = 50;
-        happiness = 50;
-        health = 50;
         isAlive = _isAlive;
         awayTime = _awayTime;
     }
@@ -114,7 +107,7 @@ public class Pet {
 
     //TODO save() - Methode
 
-    /** all get-Methods */
+    /**get-Methods*/
     public String getName() { return name; }
 
     public int getHunger() { return hunger; }

@@ -28,8 +28,9 @@ public class Game extends AppCompatActivity {
     int counter = 0;
     int interval = 1;
 
-    /**TextView to indicate the current room*/
+    /**TextViews*/
     private TextView textViewRoom;
+    private TextView textViewName;
 
     /**LinearLayout to change the Background*/
     LinearLayout root;
@@ -49,19 +50,21 @@ public class Game extends AppCompatActivity {
     private ImageButton buttonPet;
     private ImageButton buttonWash;
 
-    @Override
+    /*@Override
     protected void onStart() {
         super.onStart();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        myPet = new Pet("Peter", 30,30,30,30,100,true,0);
+        myPet = new Pet("Testname", 50,50,50,50,70,true,0);
 
         textViewRoom = findViewById(R.id.tvRoom);
+        textViewName = findViewById(R.id.tvName);
+        textViewName.setText(myPet.getName());
         root=(LinearLayout)findViewById(R.id.root);
 
         progressBarManager = new ProgressBarManager(this);
