@@ -117,6 +117,7 @@ public class Game extends AppCompatActivity {
                 buttonFood.setVisibility(View.VISIBLE);
                 buttonCoffee.setVisibility(View.VISIBLE);
                 buttonPotion.setVisibility(View.VISIBLE);
+                buttonStore.setVisibility(View.VISIBLE);
                 textViewRoom.setText("Küche");
                 root.setBackgroundResource(R.drawable.kitchen);
             }
@@ -229,6 +230,7 @@ public class Game extends AppCompatActivity {
         buttonPotion.setVisibility(View.VISIBLE);
         buttonFood.setVisibility(View.VISIBLE);
         buttonCoffee.setVisibility(View.VISIBLE);
+        buttonStore.setVisibility(View.VISIBLE);
         textViewRoom.setText("Küche");
     }
 
@@ -280,11 +282,10 @@ public class Game extends AppCompatActivity {
         buttonWash.setVisibility(View.INVISIBLE);
         buttonPotion.setVisibility(View.INVISIBLE);
         buttonCoffee.setVisibility(View.INVISIBLE);
+        buttonStore.setVisibility(View.INVISIBLE);
     }
 
-    /**
-     * Update all Prgressbars
-     */
+    /**Update all Progressbars*/
     public void updateProgressbarAll(){
         progressBarManager.updateProgressbarHunger(myPet.getHunger());
         progressBarManager.updateProgressbarEnergy(myPet.getEnergy());
