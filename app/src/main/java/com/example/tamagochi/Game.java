@@ -2,6 +2,7 @@ package com.example.tamagochi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -20,6 +21,10 @@ public class Game extends AppCompatActivity {
     /**Number of food-supplies*/
     private int food;
 
+    /**Counter and Interval to reduce Pet-values*/
+    int counter = 0;
+    int interval = 10;
+
     /**TextView to indicate the current room*/
     private TextView textViewRoom;
 
@@ -33,11 +38,13 @@ public class Game extends AppCompatActivity {
     private Button buttonKitchen;
     private ImageButton buttonMenu;
     private ImageButton buttonFood;
+    private ImageButton buttonPotion;
     private ImageButton buttonStore;
     private ImageButton buttonSleep;
     private ImageButton buttonPlay;
     private ImageButton buttonPet;
     private ImageButton buttonWash;
+    //TODO Kaffee Button (füllt Energy sofort auf)
 
     @Override
     protected void onStart() {
@@ -58,6 +65,8 @@ public class Game extends AppCompatActivity {
         progressBarManager.updateProgressbarHunger(30);
 
         updateProgressbarAll();
+
+        timer.run();
 
         //TODO In der Küche starten
         /**The Game starts in the Kitchen*/
@@ -146,6 +155,21 @@ public class Game extends AppCompatActivity {
             }
         });
 
+        buttonPotion = findViewById(R.id.btnPotion);
+        /*buttonPotion.setEnabled(false);
+        if(potion > 0){
+            buttonPotion.setEnabled(true);
+        }*/
+        buttonFood.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(myPet.getHealth() < 100) {
+                    myPet.updateHealth(40);
+                    updateProgressbarAll();
+                }
+            }
+        });
+
         buttonStore = findViewById(R.id.btnStore);
         buttonStore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,13 +213,35 @@ public class Game extends AppCompatActivity {
         });
     }
 
+    /**Timer-Handler to reduce Pet-Values*/
+    private Handler handler = new Handler();
+    private Runnable timer = new Runnable() {
+        @Override
+        public void run() {
+            if(counter < interval){
+                counter++;
+            }else{
+                myPet.updateHunger(-1);
+                myPet.updateEnergy(-1);
+                myPet.updateCleanliness(-1);
+                myPet.updateHappiness(-1);
+                updateProgressbarAll();
+                counter = 0;
+                //TODO Health senken wenn 3 von 4 Werten 0 erreichen
+            }
+            handler.postDelayed(timer, 500);
+        }
+    };
+
+
     //TODO Bilder für die Kaufoptionen einfügen
     public void shopMenu(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setMessage("Shop");
         alertDialog.setCancelable(true);
 
-        //alertDialog.setNeutralButtonIcon(getDrawable(R.drawable.download));
+        //alertDialog.setNeutralButtonIcon(getDrawable(R.drawable.food));
+        //alertDialog.setNeutralButtonIcon(getDrawable(R.drawable.potion));
 
         alertDialog.create().show();
     }

@@ -128,7 +128,8 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:text="@string/tvBedroom" />
+                android:text="@string/tvBedroom"
+                app:backgroundTint="#009e60" />
 
             <Button
                 android:id="@+id/btnKitchen"
@@ -139,7 +140,8 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:text="@string/tvKitchen" />
+                android:text="@string/tvKitchen"
+                app:backgroundTint="#8f0114" />
 
             <Button
                 android:id="@+id/btnBathroom"
@@ -150,7 +152,8 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:text="@string/tvBathroom" />
+                android:text="@string/tvBathroom"
+                app:backgroundTint="#0184ac" />
 
             <Button
                 android:id="@+id/btnPlayroom"
@@ -161,7 +164,8 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:text="@string/tvPlayroom" />
+                android:text="@string/tvPlayroom"
+                app:backgroundTint="#a97c00" />
 
         </LinearLayout>
 
@@ -252,6 +256,15 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:src="@drawable/food" />
+
+            <ImageButton
+                android:id="@+id/btnPotion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:rotation="180"
+                android:src="@drawable/potion" />
 
         </LinearLayout>
     </LinearLayout>
