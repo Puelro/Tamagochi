@@ -258,6 +258,14 @@
                 android:src="@drawable/food" />
 
             <ImageButton
+                android:id="@+id/btnCoffee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                app:srcCompat="@drawable/coffee" />
+
+            <ImageButton
                 android:id="@+id/btnPotion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -26,7 +26,7 @@ public class Game extends AppCompatActivity {
 
     /**Counter and Interval to reduce Pet-values*/
     int counter = 0;
-    int interval = 10;
+    int interval = 1;
 
     /**TextView to indicate the current room*/
     private TextView textViewRoom;
@@ -41,13 +41,13 @@ public class Game extends AppCompatActivity {
     private Button buttonKitchen;
     private ImageButton buttonMenu;
     private ImageButton buttonFood;
+    private ImageButton buttonCoffee;
     private ImageButton buttonPotion;
     private ImageButton buttonStore;
     private ImageButton buttonSleep;
     private ImageButton buttonPlay;
     private ImageButton buttonPet;
     private ImageButton buttonWash;
-    //TODO Kaffee Button (füllt Energy sofort auf)
 
     @Override
     protected void onStart() {
@@ -70,15 +70,6 @@ public class Game extends AppCompatActivity {
         updateProgressbarAll();
 
         timer.run();
-
-        //TODO In der Küche starten
-        /**The Game starts in the Kitchen*/
-        /*buttonKitchen.setEnabled(false);
-        buttonSleep.setVisibility(View.INVISIBLE);
-        buttonPlay.setVisibility(View.INVISIBLE);
-        buttonPet.setVisibility(View.INVISIBLE);
-        buttonWash.setVisibility(View.INVISIBLE);*/
-        textViewRoom.setText("Küche");
 
         buttonMenu = findViewById(R.id.btnMenu);
         buttonMenu.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +115,7 @@ public class Game extends AppCompatActivity {
                 buttonKitchen.setEnabled(false);
                 makeAllInteractionButtonsInvisible();
                 buttonFood.setVisibility(View.VISIBLE);
+                buttonCoffee.setVisibility(View.VISIBLE);
                 buttonPotion.setVisibility(View.VISIBLE);
                 textViewRoom.setText("Küche");
                 root.setBackgroundResource(R.drawable.kitchen);
@@ -154,6 +146,21 @@ public class Game extends AppCompatActivity {
             public void onClick(View v) {
                 if(myPet.getHunger() < 100) {
                     myPet.updateHunger(20);
+                    updateProgressbarAll();
+                }
+            }
+        });
+
+        buttonCoffee = findViewById(R.id.btnCoffee);
+        /*buttonCoffee.setEnabled(false);
+        if(food > 0){
+            buttonCoffee.setEnabled(true);
+        }*/
+        buttonCoffee.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(myPet.getEnergy() < 100) {
+                    myPet.updateEnergy(100);
                     updateProgressbarAll();
                 }
             }
@@ -215,6 +222,14 @@ public class Game extends AppCompatActivity {
                 updateProgressbarAll();
             }
         });
+
+        /**The Game starts in the Kitchen*/
+        buttonKitchen.setEnabled(false);
+        makeAllInteractionButtonsInvisible();
+        buttonPotion.setVisibility(View.VISIBLE);
+        buttonFood.setVisibility(View.VISIBLE);
+        buttonCoffee.setVisibility(View.VISIBLE);
+        textViewRoom.setText("Küche");
     }
 
     /**Timer-Handler to reduce Pet-Values*/
@@ -264,6 +279,7 @@ public class Game extends AppCompatActivity {
         buttonPet.setVisibility(View.INVISIBLE);
         buttonWash.setVisibility(View.INVISIBLE);
         buttonPotion.setVisibility(View.INVISIBLE);
+        buttonCoffee.setVisibility(View.INVISIBLE);
     }
 
     /**
