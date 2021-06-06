@@ -16,6 +16,7 @@ public class Pet {
     private int awayTime;
     private boolean isAlive;
 
+    /**empty Constructor*/
     public Pet(){
 
     }
@@ -42,6 +43,7 @@ public class Pet {
         awayTime = _awayTime;
     }
 
+    /**Methods to update values*/
     public void updateHunger(int food){
         if(hunger + food > 100)
             hunger = 100;
@@ -109,19 +111,12 @@ public class Pet {
 
     /**get-Methods*/
     public String getName() { return name; }
-
     public int getHunger() { return hunger; }
-
     public int getEnergy() { return energy; }
-
     public int getCleanliness() { return cleanliness; }
-
     public int getHappiness() { return happiness; }
-
     public int getHealth() { return health; }
-
     public int getAwayTime() { return awayTime; }
-
     public boolean isDead() { return isAlive; }
 
 }

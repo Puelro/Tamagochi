@@ -189,16 +189,16 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_height="500dp"
+            android:layout_marginTop="250dp"
             android:layout_weight="1"
-            android:src="@drawable/game" />
+            android:src="@drawable/kiwi" />
 
         <TextView
             android:id="@+id/tvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="280dp"
+            android:layout_marginTop="700dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="Name"
@@ -229,7 +229,7 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/btnStore"
+                android:id="@+id/btnShop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

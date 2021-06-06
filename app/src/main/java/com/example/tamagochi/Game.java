@@ -12,10 +12,16 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Manages the Main-Features of the App
+ * @author Robin
+ */
 public class Game extends AppCompatActivity {
 
+    /**Pet*/
     private Pet myPet;
 
+    /**ProgressbarManager for Pets values*/
     ProgressBarManager progressBarManager;
 
     /**Number of food-supplies*/
@@ -44,7 +50,7 @@ public class Game extends AppCompatActivity {
     private ImageButton buttonFood;
     private ImageButton buttonCoffee;
     private ImageButton buttonPotion;
-    private ImageButton buttonStore;
+    private ImageButton buttonShop;
     private ImageButton buttonSleep;
     private ImageButton buttonPlay;
     private ImageButton buttonPet;
@@ -60,20 +66,24 @@ public class Game extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        myPet = new Pet("Testname", 50,50,50,50,70,true,0);
+        myPet = new Pet("Kiwi", 50,50,50,50,70,true,0);
 
+        /**initialize TextViews*/
         textViewRoom = findViewById(R.id.tvRoom);
         textViewName = findViewById(R.id.tvName);
         textViewName.setText(myPet.getName());
         root=(LinearLayout)findViewById(R.id.root);
 
+        /**initialize ProgressBarManager*/
         progressBarManager = new ProgressBarManager(this);
         progressBarManager.updateProgressbarHunger(30);
 
         updateProgressbarAll();
 
+        /**start Timer to reduce values*/
         timer.run();
 
+        /**Button to go back to MainMenu*/
         buttonMenu = findViewById(R.id.btnMenu);
         buttonMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +93,7 @@ public class Game extends AppCompatActivity {
             }
         });
 
+        /**Button to enter the Bedroom*/
         buttonBedroom = findViewById(R.id.btnBedroom);
         buttonBedroom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +108,7 @@ public class Game extends AppCompatActivity {
             }
         });
 
+        /**Button to enter the Bathroom*/
         buttonBathroom = findViewById(R.id.btnBathroom);
         buttonBathroom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +122,7 @@ public class Game extends AppCompatActivity {
             }
         });
 
+        /**Button to enter the Kitchen*/
         buttonKitchen = findViewById(R.id.btnKitchen);
         buttonKitchen.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -120,12 +133,13 @@ public class Game extends AppCompatActivity {
                 buttonFood.setVisibility(View.VISIBLE);
                 buttonCoffee.setVisibility(View.VISIBLE);
                 buttonPotion.setVisibility(View.VISIBLE);
-                buttonStore.setVisibility(View.VISIBLE);
+                buttonShop.setVisibility(View.VISIBLE);
                 textViewRoom.setText("Küche");
                 root.setBackgroundResource(R.drawable.kitchen);
             }
         });
 
+        /**Button to enter the Playroom*/
         buttonPlayroom = findViewById(R.id.btnPlayroom);
         buttonPlayroom.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -140,6 +154,7 @@ public class Game extends AppCompatActivity {
             }
         });
 
+        /**Button to feed the Pet*/
         buttonFood = findViewById(R.id.btnFood);
         /*buttonFood.setEnabled(false);
         if(food > 0){
@@ -155,6 +170,7 @@ public class Game extends AppCompatActivity {
             }
         });
 
+        /**Button to give the Pet coffee*/
         buttonCoffee = findViewById(R.id.btnCoffee);
         /*buttonCoffee.setEnabled(false);
         if(food > 0){
@@ -170,6 +186,7 @@ public class Game extends AppCompatActivity {
             }
         });
 
+        /**Button to heal the Pet*/
        buttonPotion = findViewById(R.id.btnPotion);
         /* buttonPotion.setEnabled(false);
         if(potion > 0){
@@ -185,14 +202,16 @@ public class Game extends AppCompatActivity {
             }
         });
 
-        buttonStore = findViewById(R.id.btnStore);
-        buttonStore.setOnClickListener(new View.OnClickListener() {
+        /**Button to open the shop*/
+        buttonShop = findViewById(R.id.btnShop);
+        buttonShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 shopMenu();
             }
         });
 
+        /**Button to let the Pet Sleep*/
         buttonSleep = findViewById(R.id.btnSleep);
         buttonSleep.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,6 +220,7 @@ public class Game extends AppCompatActivity {
             }
         });
 
+        /**Button to play the minniGame*/
         buttonPlay = findViewById(R.id.btnPlay);
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,6 +229,7 @@ public class Game extends AppCompatActivity {
             }
         });
 
+        /**Button to pet the Pet*/
         buttonPet = findViewById(R.id.btnPet);
         buttonPet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,6 +239,7 @@ public class Game extends AppCompatActivity {
             }
         });
 
+        /**Button to wash the Pet*/
         buttonWash = findViewById(R.id.btnWash);
         buttonWash.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,7 +255,7 @@ public class Game extends AppCompatActivity {
         buttonPotion.setVisibility(View.VISIBLE);
         buttonFood.setVisibility(View.VISIBLE);
         buttonCoffee.setVisibility(View.VISIBLE);
-        buttonStore.setVisibility(View.VISIBLE);
+        buttonShop.setVisibility(View.VISIBLE);
         textViewRoom.setText("Küche");
     }
 
@@ -259,6 +281,7 @@ public class Game extends AppCompatActivity {
 
 
     //TODO Bilder für die Kaufoptionen einfügen
+    /**Shop to buy food, coffee and potions*/
     public void shopMenu(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setMessage("Shop");
@@ -285,10 +308,9 @@ public class Game extends AppCompatActivity {
         buttonWash.setVisibility(View.INVISIBLE);
         buttonPotion.setVisibility(View.INVISIBLE);
         buttonCoffee.setVisibility(View.INVISIBLE);
-        buttonStore.setVisibility(View.INVISIBLE);
+        buttonShop.setVisibility(View.INVISIBLE);
     }
 
-    /**Update all Progressbars*/
     public void updateProgressbarAll(){
         progressBarManager.updateProgressbarHunger(myPet.getHunger());
         progressBarManager.updateProgressbarEnergy(myPet.getEnergy());
