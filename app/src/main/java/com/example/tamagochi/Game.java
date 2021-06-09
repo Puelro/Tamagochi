@@ -1,6 +1,7 @@
 package com.example.tamagochi;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -30,8 +31,12 @@ public class Game extends AppCompatActivity {
     /**Number of potion-supplies*/
     private int potion;
 
+    /**checks if Pet is asleep*/
+    private boolean isAsleep = false;
+
     /**Counter and Interval to reduce Pet-values*/
     int counter = 0;
+    int counter2 = 0;
     int interval = 1;
 
     /**TextViews*/
@@ -104,7 +109,6 @@ public class Game extends AppCompatActivity {
                 buttonSleep.setVisibility(View.VISIBLE);
                 textViewRoom.setText("Schlafzimmer");
                 root.setBackgroundResource(R.drawable.bedroom);
-
             }
         });
 
@@ -119,6 +123,7 @@ public class Game extends AppCompatActivity {
                 buttonWash.setVisibility(View.VISIBLE);
                 textViewRoom.setText("Badezimmer");
                 root.setBackgroundResource(R.drawable.bathroom);
+                isAsleep = false;
             }
         });
 
@@ -136,6 +141,7 @@ public class Game extends AppCompatActivity {
                 buttonShop.setVisibility(View.VISIBLE);
                 textViewRoom.setText("Küche");
                 root.setBackgroundResource(R.drawable.kitchen);
+                isAsleep = false;
             }
         });
 
@@ -151,6 +157,7 @@ public class Game extends AppCompatActivity {
                 buttonPet.setVisibility(View.VISIBLE);
                 textViewRoom.setText("Spielzimmer");
                 root.setBackgroundResource(R.drawable.playroom);
+                isAsleep = false;
             }
         });
 
@@ -216,7 +223,13 @@ public class Game extends AppCompatActivity {
         buttonSleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(isAsleep == false){
+                    isAsleep = true;
+                    timerSleep.run();
+                }
+                else {
+                    isAsleep = false;
+                }
             }
         });
 
@@ -273,12 +286,43 @@ public class Game extends AppCompatActivity {
                 myPet.updateHappiness(-1);
                 updateProgressbarAll();
                 counter = 0;
-                //TODO Health senken wenn 3 von 4 Werten 0 erreichen
+                //health decreases if three out of four values are at 0
+                if(threeOutOfFourValuesDown()){
+                    myPet.updateHealth(-1);
+                }
             }
             handler.postDelayed(timer, 500);
         }
     };
 
+    /**checks if at least three out of four values reached 0*/
+    public boolean threeOutOfFourValuesDown(){
+        if(myPet.getEnergy()<=0 && myPet.getHunger()<=0 && myPet.getHappiness()<=0 || myPet.getEnergy()<=0 && myPet.getHunger()<=0 && myPet.getCleanliness()<=0 || myPet.getEnergy()<=0 && myPet.getHappiness()<=0 && myPet.getCleanliness()<=0 || myPet.getHunger()<=0 && myPet.getHappiness()<=0 && myPet.getCleanliness()<=0){
+           return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**Timer to increase Energy while sleeping*/
+    Handler handler2 = new Handler();
+    private Runnable timerSleep = new Runnable() {
+        @Override
+        public void run() {
+            if(counter2 < interval){
+                counter2++;
+            }else if(myPet.getEnergy() < 100){
+                myPet.updateEnergy(3);
+                updateProgressbarAll();
+                counter2 = 0;
+            }
+            handler2.postDelayed(timerSleep, 500);
+            if(myPet.getEnergy()>=100||isAsleep==false){
+                handler2.removeCallbacks(timerSleep);
+                isAsleep = false;
+            }
+        }
+    };
 
     //TODO Bilder für die Kaufoptionen einfügen
     /**Shop to buy food, coffee and potions*/

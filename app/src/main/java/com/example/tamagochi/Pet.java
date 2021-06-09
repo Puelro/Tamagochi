@@ -117,6 +117,6 @@ public class Pet {
     public int getHappiness() { return happiness; }
     public int getHealth() { return health; }
     public int getAwayTime() { return awayTime; }
-    public boolean isDead() { return isAlive; }
+    public boolean getIsAlive() { return isAlive; }
 
 }
