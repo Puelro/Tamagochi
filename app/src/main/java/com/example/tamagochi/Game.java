@@ -1,11 +1,13 @@
 package com.example.tamagochi;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -71,7 +73,17 @@ public class Game extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        myPet = new Pet("Kiwi", 50,50,50,50,70,true,0);
+        myPet = new Pet();
+        SharedPreferences save = getSharedPreferences("save", 0);
+        boolean alive = save.getBoolean("isAlive",true);
+        if(alive){
+            loadGame();
+        }
+        else{
+            newGame();
+        }
+        myPet.updateIsAlive();
+        saveGame();
 
         /**initialize TextViews*/
         textViewRoom = findViewById(R.id.tvRoom);
@@ -290,8 +302,14 @@ public class Game extends AppCompatActivity {
                 if(threeOutOfFourValuesDown()){
                     myPet.updateHealth(-1);
                 }
+                myPet.updateIsAlive();
             }
             handler.postDelayed(timer, 500);
+            if(!myPet.getIsAlive()){
+                handler.removeCallbacks(timer);
+                handleDeath();
+            }
+            saveGame();
         }
     };
 
@@ -317,7 +335,7 @@ public class Game extends AppCompatActivity {
                 counter2 = 0;
             }
             handler2.postDelayed(timerSleep, 500);
-            if(myPet.getEnergy()>=100||isAsleep==false){
+            if(myPet.getEnergy()>=100||!isAsleep){
                 handler2.removeCallbacks(timerSleep);
                 isAsleep = false;
             }
@@ -335,6 +353,68 @@ public class Game extends AppCompatActivity {
         //alertDialog.setNeutralButtonIcon(getDrawable(R.drawable.potion));
 
         alertDialog.create().show();
+    }
+
+    public void handleDeath(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setMessage(myPet.getName()+" ist gestorben");
+        alertDialog.setCancelable(false);
+        alertDialog.setNeutralButton("zum Hauptmenü", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Game.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        alertDialog.create().show();
+        saveGame();
+    }
+
+    public void saveGame(){
+        SharedPreferences save = getSharedPreferences("save", 0);
+        SharedPreferences.Editor editor = save.edit();
+        editor.putInt("hunger", myPet.getHunger());
+        editor.putInt("cleanliness", myPet.getCleanliness());
+        editor.putInt("energy", myPet.getEnergy());
+        editor.putInt("happiness", myPet.getHappiness());
+        editor.putInt("health", myPet.getHealth());
+        editor.putBoolean("isAlive", myPet.getIsAlive());
+        editor.putString("name",myPet.getName());
+
+        editor.commit();
+    }
+
+    public void loadGame(){
+        SharedPreferences save = getSharedPreferences("save", 0);
+        myPet.updateHunger(save.getInt("hunger",100));
+        myPet.updateEnergy(save.getInt("energy",100));
+        myPet.updateCleanliness(save.getInt("cleanliness",100));
+        myPet.updateHappiness(save.getInt("happiness",100));
+        myPet.updateHealth(save.getInt("health",100));
+        myPet.setName(save.getString("name","unknown"));
+    }
+
+    public void newGame(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setMessage("geben deinem Kiwi einen Namen");
+        EditText input = new EditText(this);
+        alertDialog.setCancelable(false);
+        alertDialog.setView(input);
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                myPet.setName(input.getText().toString());
+                textViewName.setText(myPet.getName());
+            }
+        });
+        alertDialog.show();
+
+        SharedPreferences save = getSharedPreferences("save", 0);
+        myPet.updateHunger(70);
+        myPet.updateEnergy(70);
+        myPet.updateCleanliness(70);
+        myPet.updateHappiness(70);
+        myPet.updateHealth(100);
     }
 
     public void enableAllRoomButtons(){
@@ -365,6 +445,7 @@ public class Game extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        saveGame();
         Intent intent = new Intent(Game.this,MainActivity.class);
         startActivity(intent);
     }

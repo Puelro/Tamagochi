@@ -10,7 +10,6 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private Button buttonPet;
-    private Button buttonCreate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

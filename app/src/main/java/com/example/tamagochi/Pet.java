@@ -18,29 +18,11 @@ public class Pet {
 
     /**empty Constructor*/
     public Pet(){
-
-    }
-
-    /**
-     * Constructor sets values
-     * @param _name the Pets given Name
-     * @param _hunger
-     * @param _energy
-     * @param _cleanliness
-     * @param _happiness
-     * @param _health
-     * @param _isAlive
-     * @param _awayTime
-     */
-    public Pet(String _name, int _hunger, int _energy, int _cleanliness, int _happiness, int _health, boolean _isAlive, int _awayTime){
-        name = _name;
-        hunger = _hunger;
-        energy = _energy;
-        cleanliness = _cleanliness;
-        happiness = _happiness;
-        health = _health;
-        isAlive = _isAlive;
-        awayTime = _awayTime;
+        hunger = 0;
+        energy = 0;
+        cleanliness = 0;
+        happiness = 0;
+        health = 0;
     }
 
     /**Methods to update values*/
@@ -53,7 +35,6 @@ public class Pet {
             hunger += food;
     }
 
-    //TODO sleep-Wert umrechnen
     public void updateEnergy(int sleep){
         if(energy + sleep > 100)
             energy = 100;
@@ -107,7 +88,9 @@ public class Pet {
         updateHunger(-time);
     }
 
-    //TODO save() - Methode
+    public void setName(String _name){
+        name = _name;
+    }
 
     /**get-Methods*/
     public String getName() { return name; }
