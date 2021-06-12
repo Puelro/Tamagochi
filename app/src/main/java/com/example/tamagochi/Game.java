@@ -63,11 +63,6 @@ public class Game extends AppCompatActivity {
     private ImageButton buttonPet;
     private ImageButton buttonWash;
 
-    /*@Override
-    protected void onStart() {
-        super.onStart();
-    }*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
