@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         buttonContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent intent = new Intent(MainActivity.this, Game.class);
                 startActivity(intent);
             }
@@ -27,6 +28,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() { }
+    public void onBackPressed() { finish();}
 
 }

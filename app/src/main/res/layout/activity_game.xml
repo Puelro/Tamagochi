@@ -241,18 +241,50 @@
             android:textSize="30sp" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/ivPet"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="match_parent"
             android:layout_marginTop="250dp"
             android:layout_weight="1"
             android:src="@drawable/kiwi" />
+
+        <ImageView
+            android:id="@+id/ivDirty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/dirty" />
+
+        <ImageView
+            android:id="@+id/ivSad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sad" />
+
+        <ImageView
+            android:id="@+id/ivTired"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/tired" />
+
+        <ImageView
+            android:id="@+id/ivSleeping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/sleeping" />
 
         <TextView
             android:id="@+id/tvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="700dp"
+            android:layout_marginTop="750dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="Name"

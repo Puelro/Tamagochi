@@ -3,12 +3,15 @@ package com.example.tamagochi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -63,6 +66,11 @@ public class Game extends AppCompatActivity {
     private ImageButton buttonPet;
     private ImageButton buttonWash;
 
+    private ImageView tired;
+    private ImageView dirty;
+    private ImageView sleeping;
+    private ImageView sad;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +98,12 @@ public class Game extends AppCompatActivity {
         progressBarManager = new ProgressBarManager(this);
         progressBarManager.updateProgressbarHunger(30);
 
+        /**initialise ImageViews for Pets state*/
+        tired = findViewById(R.id.ivTired);
+        dirty = findViewById(R.id.ivDirty);
+        sad = findViewById(R.id.ivSad);
+        sleeping = findViewById(R.id.ivSleeping);
+
         updateProgressbarAll();
 
         /**start Timer to reduce values*/
@@ -100,6 +114,7 @@ public class Game extends AppCompatActivity {
         buttonMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent intent = new Intent(Game.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -292,6 +307,7 @@ public class Game extends AppCompatActivity {
                 myPet.updateCleanliness(-1);
                 myPet.updateHappiness(-1);
                 updateProgressbarAll();
+                managePetViews();
                 counter = 0;
                 //health decreases if three out of four values are at 0
                 if(threeOutOfFourValuesDown()){
@@ -307,6 +323,32 @@ public class Game extends AppCompatActivity {
             saveGame();
         }
     };
+
+    public void managePetViews(){
+        if(myPet.getEnergy() > 40){
+            tired.setVisibility(View.INVISIBLE);
+        }else{
+            tired.setVisibility(View.VISIBLE);
+        }
+
+        if(myPet.getCleanliness() > 40){
+            dirty.setVisibility(View.INVISIBLE);
+        }else{
+            dirty.setVisibility(View.VISIBLE);
+        }
+
+        if(myPet.getHappiness() > 40){
+            sad.setVisibility(View.INVISIBLE);
+        }else{
+            sad.setVisibility(View.VISIBLE);
+        }
+
+        if(!isAsleep){
+            sleeping.setVisibility(View.INVISIBLE);
+        }else{
+            sleeping.setVisibility(View.VISIBLE);
+        }
+    }
 
     /**checks if at least three out of four values reached 0*/
     public boolean threeOutOfFourValuesDown(){
@@ -412,6 +454,30 @@ public class Game extends AppCompatActivity {
         myPet.updateHealth(100);
     }
 
+    //long startTime = SystemClock.elapsedRealtime();
+    public void onPause() {
+        long startTime = SystemClock.elapsedRealtime();
+        SharedPreferences save = getSharedPreferences("save", 0);
+        SharedPreferences.Editor editor = save.edit();
+        editor.putLong("startTime", startTime );
+        editor.commit();
+        super.onPause();
+    }
+
+    public void onResume() {
+        SharedPreferences save = getSharedPreferences("save", 0);
+        long startTime = save.getLong("startTime", 0);
+        long elapsedTime = SystemClock.elapsedRealtime() - startTime;
+
+        //SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        //String timeFormatS = timeFormat.format(SystemClock.elapsedRealtime() - startTime);
+
+        System.out.println(elapsedTime);
+        //System.out.println(timeFormatS);
+
+        super.onResume();
+    }
+
     public void enableAllRoomButtons(){
         buttonKitchen.setEnabled(true);
         buttonBedroom.setEnabled(true);
@@ -441,6 +507,7 @@ public class Game extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         saveGame();
+        finish();
         Intent intent = new Intent(Game.this,MainActivity.class);
         startActivity(intent);
     }
