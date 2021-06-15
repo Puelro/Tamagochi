@@ -72,7 +72,7 @@ public class Game extends AppCompatActivity {
 
         myPet = new Pet();
         SharedPreferences save = getSharedPreferences("save", 0);
-        boolean alive = save.getBoolean("isAlive",true);
+        boolean alive = save.getBoolean("isAlive",false);
         if(alive){
             loadGame();
         }
@@ -179,54 +179,39 @@ public class Game extends AppCompatActivity {
 
         /**Button to feed the Pet*/
         buttonFood = findViewById(R.id.btnFood);
-        buttonFood.setEnabled(false);
-        buttonFood.setColorFilter(Color.DKGRAY);
-        if(myPet.getFood() > 0){
-            buttonFood.setEnabled(true);
-            buttonFood.setColorFilter(Color.BLACK);
-        }
         buttonFood.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(myPet.getHunger() < 100) {
                     myPet.updateHunger(20);
                     updateProgressbarAll();
+                    myPet.updateFood(-1);
                 }
             }
         });
 
         /**Button to give the Pet coffee*/
         buttonCoffee = findViewById(R.id.btnCoffee);
-        buttonCoffee.setEnabled(false);
-        buttonCoffee.setColorFilter(Color.DKGRAY);
-        if(myPet.getCoffee() > 0){
-            buttonCoffee.setEnabled(true);
-            buttonCoffee.setColorFilter(Color.BLACK);
-        }
         buttonCoffee.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(myPet.getEnergy() < 100) {
                     myPet.updateEnergy(100);
                     updateProgressbarAll();
+                    myPet.updateCoffee(-1);
                 }
             }
         });
 
         /**Button to heal the Pet*/
         buttonPotion = findViewById(R.id.btnPotion);
-        buttonPotion.setEnabled(false);
-        buttonPotion.setColorFilter(Color.DKGRAY);
-        if(myPet.getPotion() > 0){
-            buttonPotion.setEnabled(true);
-            buttonPotion.setColorFilter(Color.BLACK);
-        }
         buttonPotion.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(myPet.getHealth() < 100) {
                     myPet.updateHealth(40);
                     updateProgressbarAll();
+                    myPet.updatePotion(-1);
                 }
             }
         });
@@ -308,6 +293,7 @@ public class Game extends AppCompatActivity {
                 myPet.updateHappiness(-1);
                 updateProgressbarAll();
                 managePetViews();
+                checkRecourse();
                 counter = 0;
                 //health decreases if three out of four values are at 0
                 if(threeOutOfFourValuesDown()){
@@ -491,10 +477,10 @@ public class Game extends AppCompatActivity {
         alertDialog.show();
 
         SharedPreferences save = getSharedPreferences("save", 0);
-        myPet.updateHunger(70);
-        myPet.updateEnergy(70);
-        myPet.updateCleanliness(70);
-        myPet.updateHappiness(70);
+        myPet.updateHunger(100);
+        myPet.updateEnergy(100);
+        myPet.updateCleanliness(100);
+        myPet.updateHappiness(100);
         myPet.updateHealth(100);
         myPet.updateMoney(10);
         myPet.updateFood(10);
@@ -524,6 +510,32 @@ public class Game extends AppCompatActivity {
         //System.out.println(timeFormatS);
 
         super.onResume();
+    }
+
+    public void checkRecourse(){
+        if(myPet.getFood() > 0){
+            buttonFood.setEnabled(true);
+            buttonFood.setColorFilter(Color.BLACK);
+        }else{
+            buttonFood.setEnabled(false);
+            buttonFood.setColorFilter(Color.DKGRAY);
+        }
+
+        if(myPet.getCoffee() > 0){
+            buttonCoffee.setEnabled(true);
+            buttonCoffee.setColorFilter(Color.BLACK);
+        }else{
+            buttonCoffee.setEnabled(false);
+            buttonCoffee.setColorFilter(Color.DKGRAY);
+        }
+
+        if(myPet.getPotion() > 0){
+            buttonPotion.setEnabled(true);
+            buttonPotion.setColorFilter(Color.BLACK);
+        }else{
+            buttonPotion.setEnabled(false);
+            buttonPotion.setColorFilter(Color.DKGRAY);
+        }
     }
 
     public void enableAllRoomButtons(){
