@@ -16,6 +16,11 @@ public class Pet {
     private int awayTime;
     private boolean isAlive;
 
+    private int food;
+    private int potion;
+    private int coffee;
+    private int money;
+
     /**empty Constructor*/
     public Pet(){
         hunger = 0;
@@ -26,6 +31,10 @@ public class Pet {
     }
 
     /**Methods to update values*/
+    public void setName(String _name){
+        name = _name;
+    }
+
     public void updateHunger(int food){
         if(hunger + food > 100)
             hunger = 100;
@@ -88,9 +97,13 @@ public class Pet {
         updateHunger(-time);
     }
 
-    public void setName(String _name){
-        name = _name;
-    }
+    public void updateFood(int _food){food += _food;}
+
+    public void updatePotion(int _potion){potion += _potion;}
+
+    public void updateCoffee(int _coffee){coffee += _coffee;}
+
+    public void updateMoney(int _money){money += _money;}
 
     /**get-Methods*/
     public String getName() { return name; }
@@ -101,5 +114,9 @@ public class Pet {
     public int getHealth() { return health; }
     public int getAwayTime() { return awayTime; }
     public boolean getIsAlive() { return isAlive; }
+    public int getFood() { return food; }
+    public int getPotion() { return potion; }
+    public int getCoffee() { return coffee; }
+    public int getMoney() { return money; }
 
 }

@@ -3,7 +3,7 @@ package com.example.tamagochi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.text.SimpleDateFormat;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -29,12 +29,6 @@ public class Game extends AppCompatActivity {
 
     /**ProgressbarManager for Pets values*/
     ProgressBarManager progressBarManager;
-
-    /**Number of food-supplies*/
-    private int food;
-
-    /**Number of potion-supplies*/
-    private int potion;
 
     /**checks if Pet is asleep*/
     private boolean isAsleep = false;
@@ -185,10 +179,12 @@ public class Game extends AppCompatActivity {
 
         /**Button to feed the Pet*/
         buttonFood = findViewById(R.id.btnFood);
-        /*buttonFood.setEnabled(false);
-        if(food > 0){
+        buttonFood.setEnabled(false);
+        buttonFood.setColorFilter(Color.DKGRAY);
+        if(myPet.getFood() > 0){
             buttonFood.setEnabled(true);
-        }*/
+            buttonFood.setColorFilter(Color.BLACK);
+        }
         buttonFood.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -201,10 +197,12 @@ public class Game extends AppCompatActivity {
 
         /**Button to give the Pet coffee*/
         buttonCoffee = findViewById(R.id.btnCoffee);
-        /*buttonCoffee.setEnabled(false);
-        if(food > 0){
+        buttonCoffee.setEnabled(false);
+        buttonCoffee.setColorFilter(Color.DKGRAY);
+        if(myPet.getCoffee() > 0){
             buttonCoffee.setEnabled(true);
-        }*/
+            buttonCoffee.setColorFilter(Color.BLACK);
+        }
         buttonCoffee.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -216,11 +214,13 @@ public class Game extends AppCompatActivity {
         });
 
         /**Button to heal the Pet*/
-       buttonPotion = findViewById(R.id.btnPotion);
-        /* buttonPotion.setEnabled(false);
-        if(potion > 0){
+        buttonPotion = findViewById(R.id.btnPotion);
+        buttonPotion.setEnabled(false);
+        buttonPotion.setColorFilter(Color.DKGRAY);
+        if(myPet.getPotion() > 0){
             buttonPotion.setEnabled(true);
-        }*/
+            buttonPotion.setColorFilter(Color.BLACK);
+        }
         buttonPotion.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -383,13 +383,49 @@ public class Game extends AppCompatActivity {
     /**Shop to buy food, coffee and potions*/
     public void shopMenu(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setMessage("Shop");
+        alertDialog.setTitle("Shop");
         alertDialog.setCancelable(true);
 
-        //alertDialog.setNeutralButtonIcon(getDrawable(R.drawable.food));
-        //alertDialog.setNeutralButtonIcon(getDrawable(R.drawable.potion));
+        alertDialog.setNeutralButton("Futter", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        alertDialog.setPositiveButton("Kaffee", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        alertDialog.setNegativeButton("Heiltrank", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
 
         alertDialog.create().show();
+
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Shop");
+        builder.setItems(new CharSequence[]
+                        {"Futter", "Kaffee", "Heiltrank"}, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:
+                        System.out.println("Futter gekauft");
+                        break;
+                    case 1:
+                        System.out.println("Kaffee gekauft");
+                        break;
+                    case 2:
+                        System.out.println("Heiltrank gekauft");
+                        break;
+                }
+            }
+        });
+        builder.create().show();*/
     }
 
     public void handleDeath(){
@@ -417,6 +453,10 @@ public class Game extends AppCompatActivity {
         editor.putInt("health", myPet.getHealth());
         editor.putBoolean("isAlive", myPet.getIsAlive());
         editor.putString("name",myPet.getName());
+        editor.putInt("money",myPet.getMoney());
+        editor.putInt("food",myPet.getFood());
+        editor.putInt("potion",myPet.getPotion());
+        editor.putInt("coffee",myPet.getCoffee());
 
         editor.commit();
     }
@@ -429,6 +469,10 @@ public class Game extends AppCompatActivity {
         myPet.updateHappiness(save.getInt("happiness",100));
         myPet.updateHealth(save.getInt("health",100));
         myPet.setName(save.getString("name","unknown"));
+        myPet.updateMoney(save.getInt("money",0));
+        myPet.updateFood(save.getInt("food",0));
+        myPet.updatePotion(save.getInt("potion",0));
+        myPet.updateCoffee(save.getInt("coffee",0));
     }
 
     public void newGame(){
@@ -452,6 +496,10 @@ public class Game extends AppCompatActivity {
         myPet.updateCleanliness(70);
         myPet.updateHappiness(70);
         myPet.updateHealth(100);
+        myPet.updateMoney(10);
+        myPet.updateFood(10);
+        myPet.updatePotion(5);
+        myPet.updateCoffee(0);
     }
 
     //long startTime = SystemClock.elapsedRealtime();
