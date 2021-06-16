@@ -97,13 +97,29 @@ public class Pet {
         updateHunger(-time);
     }
 
-    public void updateFood(int _food){food += _food;}
+    public void updateFood(int _food){
+        food += _food;
+        if(food < 0)
+            food = 0;
+    }
 
-    public void updatePotion(int _potion){potion += _potion;}
+    public void updatePotion(int _potion){
+        potion += _potion;
+        if(potion < 0)
+            potion = 0;
+    }
 
-    public void updateCoffee(int _coffee){coffee += _coffee;}
+    public void updateCoffee(int _coffee){
+        coffee += _coffee;
+        if(coffee < 0)
+            coffee = 0;
+    }
 
-    public void updateMoney(int _money){money += _money;}
+    public void updateMoney(int _money){
+        money += _money;
+        if(money < 0)
+            money = 0;
+    }
 
     /**get-Methods*/
     public String getName() { return name; }

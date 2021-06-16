@@ -25,7 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Game extends AppCompatActivity {
 
     /**Pet*/
-    private Pet myPet;
+    Pet myPet;
 
     /**ProgressbarManager for Pets values*/
     ProgressBarManager progressBarManager;
@@ -41,6 +41,7 @@ public class Game extends AppCompatActivity {
     /**TextViews*/
     private TextView textViewRoom;
     private TextView textViewName;
+    private TextView textViewMoney;
 
     /**LinearLayout to change the Background*/
     LinearLayout root;
@@ -85,6 +86,7 @@ public class Game extends AppCompatActivity {
         /**initialize TextViews*/
         textViewRoom = findViewById(R.id.tvRoom);
         textViewName = findViewById(R.id.tvName);
+        textViewMoney = findViewById(R.id.tvMoney);
         textViewName.setText(myPet.getName());
         root=(LinearLayout)findViewById(R.id.root);
 
@@ -245,7 +247,9 @@ public class Game extends AppCompatActivity {
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO MiniGame
+                finish();
+                Intent intent = new Intent(Game.this, MiniGame.class);
+                startActivity(intent);
             }
         });
 
@@ -294,6 +298,7 @@ public class Game extends AppCompatActivity {
                 updateProgressbarAll();
                 managePetViews();
                 checkRecourse();
+                textViewMoney.setText(myPet.getMoney() + "€");
                 counter = 0;
                 //health decreases if three out of four values are at 0
                 if(threeOutOfFourValuesDown()){
@@ -372,21 +377,30 @@ public class Game extends AppCompatActivity {
         alertDialog.setTitle("Shop");
         alertDialog.setCancelable(true);
 
-        alertDialog.setNeutralButton("Futter", new DialogInterface.OnClickListener() {
+        alertDialog.setNeutralButton("Futter 10€", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
+                if(myPet.getMoney() >= 10 ) {
+                    myPet.updateFood(1);
+                    myPet.updateMoney(-10);
+                }
             }
         });
 
-        alertDialog.setPositiveButton("Kaffee", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton("Kaffee 50€", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
+                if(myPet.getMoney() >= 50 ) {
+                    myPet.updateCoffee(1);
+                    myPet.updateMoney(-50);
+                }
             }
         });
 
-        alertDialog.setNegativeButton("Heiltrank", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton("Heiltrank 30€", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
+                if(myPet.getMoney() >= 30 ) {
+                    myPet.updatePotion(1);
+                    myPet.updateMoney(-30);
+                }
             }
         });
 
@@ -471,6 +485,8 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 myPet.setName(input.getText().toString());
+                if(myPet.getName().length() == 0)
+                    myPet.setName("Kiwi");
                 textViewName.setText(myPet.getName());
             }
         });
@@ -482,7 +498,7 @@ public class Game extends AppCompatActivity {
         myPet.updateCleanliness(100);
         myPet.updateHappiness(100);
         myPet.updateHealth(100);
-        myPet.updateMoney(10);
+        myPet.updateMoney(100);
         myPet.updateFood(10);
         myPet.updatePotion(5);
         myPet.updateCoffee(0);
@@ -515,26 +531,26 @@ public class Game extends AppCompatActivity {
     public void checkRecourse(){
         if(myPet.getFood() > 0){
             buttonFood.setEnabled(true);
-            buttonFood.setColorFilter(Color.BLACK);
+            buttonFood.setAlpha(1f);
         }else{
             buttonFood.setEnabled(false);
-            buttonFood.setColorFilter(Color.DKGRAY);
+            buttonFood.setAlpha(0.7f);
         }
 
         if(myPet.getCoffee() > 0){
             buttonCoffee.setEnabled(true);
-            buttonCoffee.setColorFilter(Color.BLACK);
+            buttonCoffee.setAlpha(1f);
         }else{
             buttonCoffee.setEnabled(false);
-            buttonCoffee.setColorFilter(Color.DKGRAY);
+            buttonCoffee.setAlpha(0.7f);
         }
 
         if(myPet.getPotion() > 0){
             buttonPotion.setEnabled(true);
-            buttonPotion.setColorFilter(Color.BLACK);
+            buttonPotion.setAlpha(1f);
         }else{
             buttonPotion.setEnabled(false);
-            buttonPotion.setColorFilter(Color.DKGRAY);
+            buttonPotion.setAlpha(0.7f);
         }
     }
 
