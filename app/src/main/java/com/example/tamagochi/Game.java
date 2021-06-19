@@ -95,6 +95,11 @@ public class Game extends AppCompatActivity {
         textViewPotion = findViewById(R.id.tvPotion);
         root=(LinearLayout)findViewById(R.id.root);
 
+        textViewMoney.setText(myPet.getMoney() + "€");
+        textViewFood.setText(myPet.getFood()+"");
+        textViewCoffee.setText(myPet.getCoffee()+"");
+        textViewPotion.setText(myPet.getPotion()+"");
+
         /**initialize ProgressBarManager*/
         progressBarManager = new ProgressBarManager(this);
         progressBarManager.updateProgressbarHunger(30);
@@ -198,8 +203,7 @@ public class Game extends AppCompatActivity {
                     myPet.updateHunger(20);
                     updateProgressbarAll();
                     myPet.updateFood(-1);
-                    //textViewFood.setText(myPet.getFood());
-                    System.out.println(myPet.getFood());
+                    textViewFood.setText(myPet.getFood()+"");
                 }
             }
         });
@@ -213,6 +217,7 @@ public class Game extends AppCompatActivity {
                     myPet.updateEnergy(100);
                     updateProgressbarAll();
                     myPet.updateCoffee(-1);
+                    textViewCoffee.setText(myPet.getCoffee()+"");
                 }
             }
         });
@@ -226,6 +231,7 @@ public class Game extends AppCompatActivity {
                     myPet.updateHealth(40);
                     updateProgressbarAll();
                     myPet.updatePotion(-1);
+                    textViewPotion.setText(myPet.getPotion()+"");
                 }
             }
         });
@@ -319,8 +325,6 @@ public class Game extends AppCompatActivity {
                 updateProgressbarAll();
                 managePetViews();
                 checkResource();
-                textViewMoney.setText(myPet.getMoney() + "€");
-                //textViewFood.setText("300");
 
                 counter = 0;
                 //health decreases if three out of four values are at 0
@@ -405,6 +409,8 @@ public class Game extends AppCompatActivity {
                 if(myPet.getMoney() >= 10 ) {
                     myPet.updateFood(1);
                     myPet.updateMoney(-10);
+                    textViewFood.setText(myPet.getFood()+"");
+                    textViewMoney.setText(myPet.getMoney() + "€");
                 }
             }
         });
@@ -414,6 +420,8 @@ public class Game extends AppCompatActivity {
                 if(myPet.getMoney() >= 50 ) {
                     myPet.updateCoffee(1);
                     myPet.updateMoney(-50);
+                    textViewCoffee.setText(myPet.getCoffee()+"");
+                    textViewMoney.setText(myPet.getMoney() + "€");
                 }
             }
         });
@@ -423,6 +431,8 @@ public class Game extends AppCompatActivity {
                 if(myPet.getMoney() >= 30 ) {
                     myPet.updatePotion(1);
                     myPet.updateMoney(-30);
+                    textViewPotion.setText(myPet.getPotion()+"");
+                    textViewMoney.setText(myPet.getMoney() + "€");
                 }
             }
         });

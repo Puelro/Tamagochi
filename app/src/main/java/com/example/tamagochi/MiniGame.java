@@ -41,7 +41,7 @@ public class MiniGame extends AppCompatActivity {
         Collections.shuffle(cups);
 
         textViewPrice = findViewById(R.id.tvPrice);
-        //textViewPrice.setVisibility(View.INVISIBLE);
+        textViewPrice.setVisibility(View.INVISIBLE);
 
         /*SharedPreferences save = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = save.edit();
