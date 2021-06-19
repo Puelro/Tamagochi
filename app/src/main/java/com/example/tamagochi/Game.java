@@ -3,7 +3,6 @@ package com.example.tamagochi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -42,6 +41,9 @@ public class Game extends AppCompatActivity {
     private TextView textViewRoom;
     private TextView textViewName;
     private TextView textViewMoney;
+    private TextView textViewFood;
+    private TextView textViewCoffee;
+    private TextView textViewPotion;
 
     /**LinearLayout to change the Background*/
     LinearLayout root;
@@ -88,6 +90,9 @@ public class Game extends AppCompatActivity {
         textViewName = findViewById(R.id.tvName);
         textViewMoney = findViewById(R.id.tvMoney);
         textViewName.setText(myPet.getName());
+        textViewFood = findViewById(R.id.tvfood);
+        textViewCoffee = findViewById(R.id.tvCoffee);
+        textViewPotion = findViewById(R.id.tvPotion);
         root=(LinearLayout)findViewById(R.id.root);
 
         /**initialize ProgressBarManager*/
@@ -110,7 +115,7 @@ public class Game extends AppCompatActivity {
         buttonMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                //finish();
                 Intent intent = new Intent(Game.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -157,6 +162,11 @@ public class Game extends AppCompatActivity {
                 buttonCoffee.setVisibility(View.VISIBLE);
                 buttonPotion.setVisibility(View.VISIBLE);
                 buttonShop.setVisibility(View.VISIBLE);
+
+                textViewFood.setVisibility(View.VISIBLE);
+                textViewCoffee.setVisibility(View.VISIBLE);
+                textViewPotion.setVisibility(View.VISIBLE);
+
                 textViewRoom.setText("Küche");
                 root.setBackgroundResource(R.drawable.kitchen);
                 isAsleep = false;
@@ -188,6 +198,8 @@ public class Game extends AppCompatActivity {
                     myPet.updateHunger(20);
                     updateProgressbarAll();
                     myPet.updateFood(-1);
+                    //textViewFood.setText(myPet.getFood());
+                    System.out.println(myPet.getFood());
                 }
             }
         });
@@ -280,6 +292,15 @@ public class Game extends AppCompatActivity {
         buttonFood.setVisibility(View.VISIBLE);
         buttonCoffee.setVisibility(View.VISIBLE);
         buttonShop.setVisibility(View.VISIBLE);
+
+        textViewFood.setVisibility(View.VISIBLE);
+        textViewCoffee.setVisibility(View.VISIBLE);
+        textViewPotion.setVisibility(View.VISIBLE);
+
+        //textViewFood.setText(myPet.getFood());
+        //textViewCoffee.setText(myPet.getCoffee());
+        //textViewPotion.setText(myPet.getPotion());
+
         textViewRoom.setText("Küche");
     }
 
@@ -297,8 +318,10 @@ public class Game extends AppCompatActivity {
                 myPet.updateHappiness(-1);
                 updateProgressbarAll();
                 managePetViews();
-                checkRecourse();
+                checkResource();
                 textViewMoney.setText(myPet.getMoney() + "€");
+                //textViewFood.setText("300");
+
                 counter = 0;
                 //health decreases if three out of four values are at 0
                 if(threeOutOfFourValuesDown()){
@@ -492,7 +515,6 @@ public class Game extends AppCompatActivity {
         });
         alertDialog.show();
 
-        SharedPreferences save = getSharedPreferences("save", 0);
         myPet.updateHunger(100);
         myPet.updateEnergy(100);
         myPet.updateCleanliness(100);
@@ -528,7 +550,7 @@ public class Game extends AppCompatActivity {
         super.onResume();
     }
 
-    public void checkRecourse(){
+    public void checkResource(){
         if(myPet.getFood() > 0){
             buttonFood.setEnabled(true);
             buttonFood.setAlpha(1f);
@@ -570,6 +592,10 @@ public class Game extends AppCompatActivity {
         buttonPotion.setVisibility(View.INVISIBLE);
         buttonCoffee.setVisibility(View.INVISIBLE);
         buttonShop.setVisibility(View.INVISIBLE);
+
+        textViewFood.setVisibility(View.INVISIBLE);
+        textViewCoffee.setVisibility(View.INVISIBLE);
+        textViewPotion.setVisibility(View.INVISIBLE);
     }
 
     public void updateProgressbarAll(){
@@ -583,7 +609,7 @@ public class Game extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         saveGame();
-        finish();
+        //finish();
         Intent intent = new Intent(Game.this,MainActivity.class);
         startActivity(intent);
     }

@@ -3,6 +3,7 @@ package com.example.tamagochi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,10 +28,6 @@ public class MiniGame extends AppCompatActivity {
     private Button buttonRetry;
     private Button buttonGame;
 
-    public MiniGame(){
-
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,20 +41,24 @@ public class MiniGame extends AppCompatActivity {
         Collections.shuffle(cups);
 
         textViewPrice = findViewById(R.id.tvPrice);
-        textViewPrice.setVisibility(View.INVISIBLE);
+        //textViewPrice.setVisibility(View.INVISIBLE);
+
+        /*SharedPreferences save = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = save.edit();
+
+        int testInt = save.getInt(getInt("money"),0);*/
+
 
         cup1 = findViewById(R.id.ivCup1);
         cup1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(cups.get(0)==01) {
-                    Toast.makeText(MiniGame.this, "richtig", Toast.LENGTH_SHORT).show();
                     cup1.setImageResource(R.drawable.cupright);
                     price+=50;
                     textViewPrice.setText("+"+price+"€");
                     textViewPrice.setVisibility(View.VISIBLE);
                 }else if(cups.get(0)==02||cups.get(0)==03){
-                    Toast.makeText(MiniGame.this, "falsch", Toast.LENGTH_SHORT).show();
                     cup1.setImageResource(R.drawable.cupwrong);
                 }
 
@@ -84,13 +85,11 @@ public class MiniGame extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(cups.get(1)==01) {
-                    Toast.makeText(MiniGame.this, "richtig", Toast.LENGTH_SHORT).show();
                     cup2.setImageResource(R.drawable.cupright);
                     price+=50;
                     textViewPrice.setText("+"+price+"€");
                     textViewPrice.setVisibility(View.VISIBLE);
                 }else if(cups.get(1)==02||cups.get(1)==03){
-                    Toast.makeText(MiniGame.this, "falsch", Toast.LENGTH_SHORT).show();
                     cup2.setImageResource(R.drawable.cupwrong);
                 }
 
@@ -117,13 +116,11 @@ public class MiniGame extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (cups.get(2) == 01) {
-                    Toast.makeText(MiniGame.this, "richtig", Toast.LENGTH_SHORT).show();
                     cup3.setImageResource(R.drawable.cupright);
                     price+=50;
                     textViewPrice.setText("+"+price+"€");
                     textViewPrice.setVisibility(View.VISIBLE);
                 } else if (cups.get(2) == 02 || cups.get(2) == 03) {
-                    Toast.makeText(MiniGame.this, "falsch", Toast.LENGTH_SHORT).show();
                     cup3.setImageResource(R.drawable.cupwrong);
                 }
 
@@ -149,7 +146,21 @@ public class MiniGame extends AppCompatActivity {
         buttonGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+
+                SharedPreferences save = getSharedPreferences("save", 0);
+                SharedPreferences.Editor editor = save.edit();
+
+
+
+                int newMoney = price + save.getInt("money",0);
+
+                editor.putInt("newMoney", newMoney);
+                /*myPet.updateHappiness(100);
+                myPet.updateMoney(price);
+                editor.putInt("money", myPet.getMoney());
+                editor.putInt("happiness", myPet.getHappiness());*/
+
+                //finish();
                 Intent intent = new Intent(MiniGame.this, Game.class);
                 startActivity(intent);
             }
@@ -172,7 +183,7 @@ public class MiniGame extends AppCompatActivity {
     }
 
     public void onBackPressed(){
-        finish();
+        //finish();
         Intent intent = new Intent(MiniGame.this, Game.class);
         startActivity(intent);
     }

@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         buttonContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                //finish();
                 Intent intent = new Intent(MainActivity.this, Game.class);
                 startActivity(intent);
             }

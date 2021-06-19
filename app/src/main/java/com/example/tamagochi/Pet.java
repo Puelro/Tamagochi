@@ -98,9 +98,10 @@ public class Pet {
     }
 
     public void updateFood(int _food){
-        food += _food;
-        if(food < 0)
+        if(food + _food <0)
             food = 0;
+        else
+            food+=_food;
     }
 
     public void updatePotion(int _potion){
