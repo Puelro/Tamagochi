@@ -180,61 +180,113 @@
             android:layout_marginTop="100dp"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnBedroom"
+            <ImageButton
+                android:id="@+id/btnBedroomLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
                 android:layout_weight="1"
-                android:text="@string/tvBedroom"
-                app:backgroundTint="#009e60" />
+                android:background="@null"
+                app:srcCompat="@drawable/left" />
 
-            <Button
-                android:id="@+id/btnKitchen"
+            <ImageButton
+                android:id="@+id/btnBathroomRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
                 android:layout_weight="1"
-                android:text="@string/tvKitchen"
-                app:backgroundTint="#8f0114" />
+                android:background="@null"
+                app:srcCompat="@drawable/right" />
+        </LinearLayout>
 
-            <Button
-                android:id="@+id/btnBathroom"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="100dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnKitchenLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
                 android:layout_weight="1"
-                android:text="@string/tvBathroom"
-                app:backgroundTint="#0184ac" />
+                android:background="@null"
+                app:srcCompat="@drawable/left" />
 
-            <Button
-                android:id="@+id/btnPlayroom"
+            <ImageButton
+                android:id="@+id/btnPlayroomRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
                 android:layout_weight="1"
-                android:text="@string/tvPlayroom"
-                app:backgroundTint="#a97c00" />
+                android:background="@null"
+                app:srcCompat="@drawable/right" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnPlayroomLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:layout_weight="1"
+            android:background="@null"
+            app:srcCompat="@drawable/left" />
+
+        <ImageButton
+            android:id="@+id/btnKitchenRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:layout_weight="1"
+            android:background="@null"
+            app:srcCompat="@drawable/right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnBathroomLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:layout_weight="1"
+                android:background="@null"
+                app:srcCompat="@drawable/left" />
+
+            <ImageButton
+                android:id="@+id/btnBedroomRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:layout_weight="1"
+                android:background="@null"
+                app:srcCompat="@drawable/right" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tvRoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="105dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/tvRoom"

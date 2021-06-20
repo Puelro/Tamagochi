@@ -1,5 +1,6 @@
 package com.example.tamagochi;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -42,12 +43,6 @@ public class MiniGame extends AppCompatActivity {
 
         textViewPrice = findViewById(R.id.tvPrice);
         textViewPrice.setVisibility(View.INVISIBLE);
-
-        /*SharedPreferences save = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = save.edit();
-
-        int testInt = save.getInt(getInt("money"),0);*/
-
 
         cup1 = findViewById(R.id.ivCup1);
         cup1.setOnClickListener(new View.OnClickListener() {
@@ -147,18 +142,9 @@ public class MiniGame extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                SharedPreferences save = getSharedPreferences("save", 0);
+                SharedPreferences save = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = save.edit();
-
-
-
-                int newMoney = price + save.getInt("money",0);
-
-                editor.putInt("newMoney", newMoney);
-                /*myPet.updateHappiness(100);
-                myPet.updateMoney(price);
-                editor.putInt("money", myPet.getMoney());
-                editor.putInt("happiness", myPet.getHappiness());*/
+                editor.putInt("price", price);
 
                 //finish();
                 Intent intent = new Intent(MiniGame.this, Game.class);

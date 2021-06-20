@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -49,10 +49,16 @@ public class Game extends AppCompatActivity {
     LinearLayout root;
 
     /**Buttons*/
-    private Button buttonBedroom;
-    private Button buttonBathroom;
-    private Button buttonPlayroom;
-    private Button buttonKitchen;
+    private ImageButton buttonBedroomRight;
+    private ImageButton buttonBathroomRight;
+    private ImageButton buttonPlayroomRight;
+    private ImageButton buttonKitchenRight;
+
+    private ImageButton buttonBedroomLeft;
+    private ImageButton buttonBathroomLeft;
+    private ImageButton buttonPlayroomLeft;
+    private ImageButton buttonKitchenLeft;
+
     private ImageButton buttonMenu;
     private ImageButton buttonFood;
     private ImageButton buttonCoffee;
@@ -74,7 +80,18 @@ public class Game extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         myPet = new Pet();
-        SharedPreferences save = getSharedPreferences("save", 0);
+
+        /**initialize TextViews*/
+        textViewRoom = findViewById(R.id.tvRoom);
+        textViewName = findViewById(R.id.tvName);
+        textViewMoney = findViewById(R.id.tvMoney);
+        textViewFood = findViewById(R.id.tvfood);
+        textViewCoffee = findViewById(R.id.tvCoffee);
+        textViewPotion = findViewById(R.id.tvPotion);
+        root=(LinearLayout)findViewById(R.id.root);
+
+        //SharedPreferences save = getSharedPreferences("save", 0);
+        SharedPreferences save = PreferenceManager.getDefaultSharedPreferences(this);
         boolean alive = save.getBoolean("isAlive",false);
         if(alive){
             loadGame();
@@ -85,16 +102,7 @@ public class Game extends AppCompatActivity {
         myPet.updateIsAlive();
         saveGame();
 
-        /**initialize TextViews*/
-        textViewRoom = findViewById(R.id.tvRoom);
-        textViewName = findViewById(R.id.tvName);
-        textViewMoney = findViewById(R.id.tvMoney);
         textViewName.setText(myPet.getName());
-        textViewFood = findViewById(R.id.tvfood);
-        textViewCoffee = findViewById(R.id.tvCoffee);
-        textViewPotion = findViewById(R.id.tvPotion);
-        root=(LinearLayout)findViewById(R.id.root);
-
         textViewMoney.setText(myPet.getMoney() + "€");
         textViewFood.setText(myPet.getFood()+"");
         textViewCoffee.setText(myPet.getCoffee()+"");
@@ -127,71 +135,59 @@ public class Game extends AppCompatActivity {
         });
 
         /**Button to enter the Bedroom*/
-        buttonBedroom = findViewById(R.id.btnBedroom);
-        buttonBedroom.setOnClickListener(new View.OnClickListener() {
+        buttonBedroomRight = findViewById(R.id.btnBedroomRight);
+        buttonBedroomRight.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                enableAllRoomButtons();
-                buttonBedroom.setEnabled(false);
-                makeAllInteractionButtonsInvisible();
-                buttonSleep.setVisibility(View.VISIBLE);
-                textViewRoom.setText("Schlafzimmer");
-                root.setBackgroundResource(R.drawable.bedroom);
-            }
+            public void onClick(View v) { toBedroom(); }
         });
 
         /**Button to enter the Bathroom*/
-        buttonBathroom = findViewById(R.id.btnBathroom);
-        buttonBathroom.setOnClickListener(new View.OnClickListener() {
+        buttonBathroomRight = findViewById(R.id.btnBathroomRight);
+        buttonBathroomRight.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                enableAllRoomButtons();
-                buttonBathroom.setEnabled(false);
-                makeAllInteractionButtonsInvisible();
-                buttonWash.setVisibility(View.VISIBLE);
-                textViewRoom.setText("Badezimmer");
-                root.setBackgroundResource(R.drawable.bathroom);
-                isAsleep = false;
-            }
+            public void onClick(View v) { toBathroom(); }
         });
 
         /**Button to enter the Kitchen*/
-        buttonKitchen = findViewById(R.id.btnKitchen);
-        buttonKitchen.setOnClickListener(new View.OnClickListener(){
+        buttonKitchenRight = findViewById(R.id.btnKitchenRight);
+        buttonKitchenRight.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                enableAllRoomButtons();
-                buttonKitchen.setEnabled(false);
-                makeAllInteractionButtonsInvisible();
-                buttonFood.setVisibility(View.VISIBLE);
-                buttonCoffee.setVisibility(View.VISIBLE);
-                buttonPotion.setVisibility(View.VISIBLE);
-                buttonShop.setVisibility(View.VISIBLE);
-
-                textViewFood.setVisibility(View.VISIBLE);
-                textViewCoffee.setVisibility(View.VISIBLE);
-                textViewPotion.setVisibility(View.VISIBLE);
-
-                textViewRoom.setText("Küche");
-                root.setBackgroundResource(R.drawable.kitchen);
-                isAsleep = false;
-            }
+            public void onClick(View v) { toKitchen(); }
         });
 
         /**Button to enter the Playroom*/
-        buttonPlayroom = findViewById(R.id.btnPlayroom);
-        buttonPlayroom.setOnClickListener(new View.OnClickListener(){
+        buttonPlayroomRight = findViewById(R.id.btnPlayroomRight);
+        buttonPlayroomRight.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                enableAllRoomButtons();
-                buttonPlayroom.setEnabled(false);
-                makeAllInteractionButtonsInvisible();
-                buttonPlay.setVisibility(View.VISIBLE);
-                buttonPet.setVisibility(View.VISIBLE);
-                textViewRoom.setText("Spielzimmer");
-                root.setBackgroundResource(R.drawable.playroom);
-                isAsleep = false;
-            }
+            public void onClick(View v) { toPlayroom(); }
+        });
+
+        /**Button to enter the Bedroom*/
+        buttonBedroomLeft = findViewById(R.id.btnBedroomLeft);
+        buttonBedroomLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { toBedroom(); }
+        });
+
+        /**Button to enter the Bathroom*/
+        buttonBathroomLeft = findViewById(R.id.btnBathroomLeft);
+        buttonBathroomLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { toBathroom(); }
+        });
+
+        /**Button to enter the Kitchen*/
+        buttonKitchenLeft = findViewById(R.id.btnKitchenLeft);
+        buttonKitchenLeft.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) { toKitchen(); }
+        });
+
+        /**Button to enter the Playroom*/
+        buttonPlayroomLeft = findViewById(R.id.btnPlayroomLeft);
+        buttonPlayroomLeft.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) { toPlayroom(); }
         });
 
         /**Button to feed the Pet*/
@@ -292,22 +288,7 @@ public class Game extends AppCompatActivity {
         });
 
         /**The Game starts in the Kitchen*/
-        buttonKitchen.setEnabled(false);
-        makeAllInteractionButtonsInvisible();
-        buttonPotion.setVisibility(View.VISIBLE);
-        buttonFood.setVisibility(View.VISIBLE);
-        buttonCoffee.setVisibility(View.VISIBLE);
-        buttonShop.setVisibility(View.VISIBLE);
-
-        textViewFood.setVisibility(View.VISIBLE);
-        textViewCoffee.setVisibility(View.VISIBLE);
-        textViewPotion.setVisibility(View.VISIBLE);
-
-        //textViewFood.setText(myPet.getFood());
-        //textViewCoffee.setText(myPet.getCoffee());
-        //textViewPotion.setText(myPet.getPotion());
-
-        textViewRoom.setText("Küche");
+        toKitchen();
     }
 
     /**Timer-Handler to reduce Pet-Values*/
@@ -477,7 +458,8 @@ public class Game extends AppCompatActivity {
     }
 
     public void saveGame(){
-        SharedPreferences save = getSharedPreferences("save", 0);
+        //SharedPreferences save = getSharedPreferences("save", 0);
+        SharedPreferences save = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = save.edit();
         editor.putInt("hunger", myPet.getHunger());
         editor.putInt("cleanliness", myPet.getCleanliness());
@@ -495,7 +477,8 @@ public class Game extends AppCompatActivity {
     }
 
     public void loadGame(){
-        SharedPreferences save = getSharedPreferences("save", 0);
+        //SharedPreferences save = getSharedPreferences("save", 0);
+        SharedPreferences save = PreferenceManager.getDefaultSharedPreferences(this);
         myPet.updateHunger(save.getInt("hunger",100));
         myPet.updateEnergy(save.getInt("energy",100));
         myPet.updateCleanliness(save.getInt("cleanliness",100));
@@ -506,6 +489,12 @@ public class Game extends AppCompatActivity {
         myPet.updateFood(save.getInt("food",0));
         myPet.updatePotion(save.getInt("potion",0));
         myPet.updateCoffee(save.getInt("coffee",0));
+
+        SharedPreferences.Editor editor = save.edit();
+        myPet.updateMoney(save.getInt("price",0));
+        textViewMoney.setText(myPet.getMoney()+"€");
+        editor.putInt("price", 0);
+        textViewMoney.setText(myPet.getMoney()+"€");
     }
 
     public void newGame(){
@@ -539,7 +528,8 @@ public class Game extends AppCompatActivity {
     //long startTime = SystemClock.elapsedRealtime();
     public void onPause() {
         long startTime = SystemClock.elapsedRealtime();
-        SharedPreferences save = getSharedPreferences("save", 0);
+        //SharedPreferences save = getSharedPreferences("save", 0);
+        SharedPreferences save = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = save.edit();
         editor.putLong("startTime", startTime );
         editor.commit();
@@ -547,7 +537,8 @@ public class Game extends AppCompatActivity {
     }
 
     public void onResume() {
-        SharedPreferences save = getSharedPreferences("save", 0);
+        //SharedPreferences save = getSharedPreferences("save", 0);
+        SharedPreferences save = PreferenceManager.getDefaultSharedPreferences(this);
         long startTime = save.getLong("startTime", 0);
         long elapsedTime = SystemClock.elapsedRealtime() - startTime;
 
@@ -586,11 +577,15 @@ public class Game extends AppCompatActivity {
         }
     }
 
-    public void enableAllRoomButtons(){
-        buttonKitchen.setEnabled(true);
-        buttonBedroom.setEnabled(true);
-        buttonBathroom.setEnabled(true);
-        buttonPlayroom.setEnabled(true);
+    public void makeAllRoomButtonsInvisible(){
+        buttonKitchenRight.setVisibility(View.INVISIBLE);
+        buttonBedroomRight.setVisibility(View.INVISIBLE);
+        buttonBathroomRight.setVisibility(View.INVISIBLE);
+        buttonPlayroomRight.setVisibility(View.INVISIBLE);
+        buttonKitchenLeft.setVisibility(View.INVISIBLE);
+        buttonBedroomLeft.setVisibility(View.INVISIBLE);
+        buttonBathroomLeft.setVisibility(View.INVISIBLE);
+        buttonPlayroomLeft.setVisibility(View.INVISIBLE);
     }
 
     public void makeAllInteractionButtonsInvisible(){
@@ -614,6 +609,58 @@ public class Game extends AppCompatActivity {
         progressBarManager.updateProgressbarCleanliness(myPet.getCleanliness());
         progressBarManager.updateProgressbarHappiness(myPet.getHappiness());
         progressBarManager.updateProgressbarHealth(myPet.getHealth());
+    }
+
+    public void toKitchen(){
+        makeAllRoomButtonsInvisible();
+        buttonBathroomRight.setVisibility(View.VISIBLE);
+        buttonBedroomLeft.setVisibility(View.VISIBLE);
+        makeAllInteractionButtonsInvisible();
+        buttonFood.setVisibility(View.VISIBLE);
+        buttonCoffee.setVisibility(View.VISIBLE);
+        buttonPotion.setVisibility(View.VISIBLE);
+        buttonShop.setVisibility(View.VISIBLE);
+
+        textViewFood.setVisibility(View.VISIBLE);
+        textViewCoffee.setVisibility(View.VISIBLE);
+        textViewPotion.setVisibility(View.VISIBLE);
+
+        textViewRoom.setText("Küche");
+        root.setBackgroundResource(R.drawable.kitchen);
+        isAsleep = false;
+    }
+
+    public void toBedroom(){
+        makeAllRoomButtonsInvisible();
+        buttonKitchenRight.setVisibility(View.VISIBLE);
+        buttonPlayroomLeft.setVisibility(View.VISIBLE);
+        makeAllInteractionButtonsInvisible();
+        buttonSleep.setVisibility(View.VISIBLE);
+        textViewRoom.setText("Schlafzimmer");
+        root.setBackgroundResource(R.drawable.bedroom);
+    }
+
+    public void toBathroom(){
+        makeAllRoomButtonsInvisible();
+        buttonKitchenLeft.setVisibility(View.VISIBLE);
+        buttonPlayroomRight.setVisibility(View.VISIBLE);
+        makeAllInteractionButtonsInvisible();
+        buttonWash.setVisibility(View.VISIBLE);
+        textViewRoom.setText("Badezimmer");
+        root.setBackgroundResource(R.drawable.bathroom);
+        isAsleep = false;
+    }
+
+    public void toPlayroom(){
+        makeAllRoomButtonsInvisible();
+        buttonBathroomLeft.setVisibility(View.VISIBLE);
+        buttonBedroomRight.setVisibility(View.VISIBLE);
+        makeAllInteractionButtonsInvisible();
+        buttonPlay.setVisibility(View.VISIBLE);
+        buttonPet.setVisibility(View.VISIBLE);
+        textViewRoom.setText("Spielzimmer");
+        root.setBackgroundResource(R.drawable.playroom);
+        isAsleep = false;
     }
 
     @Override

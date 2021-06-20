@@ -105,21 +105,24 @@ public class Pet {
     }
 
     public void updatePotion(int _potion){
-        potion += _potion;
-        if(potion < 0)
+        if(potion + _potion <0)
             potion = 0;
+        else
+            potion += _potion;
     }
 
     public void updateCoffee(int _coffee){
-        coffee += _coffee;
-        if(coffee < 0)
+        if(coffee + _coffee <0)
             coffee = 0;
+        else
+            coffee += _coffee;
     }
 
     public void updateMoney(int _money){
-        money += _money;
-        if(money < 0)
+        if(money + _money <0)
             money = 0;
+        else
+            money += _money;
     }
 
     /**get-Methods*/
