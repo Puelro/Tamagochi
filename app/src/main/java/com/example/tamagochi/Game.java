@@ -385,7 +385,7 @@ public class Game extends AppCompatActivity {
         alertDialog.setTitle("Shop");
         alertDialog.setCancelable(true);
 
-        alertDialog.setNeutralButton("Futter 10€", new DialogInterface.OnClickListener() {
+        alertDialog.setNeutralButton("Futter 10€      ", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if(myPet.getMoney() >= 10 ) {
                     myPet.updateFood(1);
@@ -396,7 +396,7 @@ public class Game extends AppCompatActivity {
             }
         });
 
-        alertDialog.setPositiveButton("Kaffee 50€", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton("Kaffee 50€   ", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if(myPet.getMoney() >= 50 ) {
                     myPet.updateCoffee(1);
@@ -407,7 +407,7 @@ public class Game extends AppCompatActivity {
             }
         });
 
-        alertDialog.setNegativeButton("Heiltrank 30€", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton("Heiltrank 30€      ", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if(myPet.getMoney() >= 30 ) {
                     myPet.updatePotion(1);
