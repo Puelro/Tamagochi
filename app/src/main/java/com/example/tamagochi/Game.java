@@ -90,8 +90,7 @@ public class Game extends AppCompatActivity {
         textViewPotion = findViewById(R.id.tvPotion);
         root=(LinearLayout)findViewById(R.id.root);
 
-        //SharedPreferences save = getSharedPreferences("save", 0);
-        SharedPreferences save = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences save = getSharedPreferences("save", 0);
         boolean alive = save.getBoolean("isAlive",false);
         if(alive){
             loadGame();
@@ -200,6 +199,7 @@ public class Game extends AppCompatActivity {
                     updateProgressbarAll();
                     myPet.updateFood(-1);
                     textViewFood.setText(myPet.getFood()+"");
+                    checkResource();
                 }
             }
         });
@@ -214,6 +214,7 @@ public class Game extends AppCompatActivity {
                     updateProgressbarAll();
                     myPet.updateCoffee(-1);
                     textViewCoffee.setText(myPet.getCoffee()+"");
+                    checkResource();
                 }
             }
         });
@@ -228,6 +229,7 @@ public class Game extends AppCompatActivity {
                     updateProgressbarAll();
                     myPet.updatePotion(-1);
                     textViewPotion.setText(myPet.getPotion()+"");
+                    checkResource();
                 }
             }
         });
@@ -289,6 +291,7 @@ public class Game extends AppCompatActivity {
 
         /**The Game starts in the Kitchen*/
         toKitchen();
+        checkResource();
     }
 
     /**Timer-Handler to reduce Pet-Values*/
@@ -304,9 +307,6 @@ public class Game extends AppCompatActivity {
                 myPet.updateCleanliness(-1);
                 myPet.updateHappiness(-1);
                 updateProgressbarAll();
-                managePetViews();
-                checkResource();
-
                 counter = 0;
                 //health decreases if three out of four values are at 0
                 if(threeOutOfFourValuesDown()){
@@ -314,6 +314,7 @@ public class Game extends AppCompatActivity {
                 }
                 myPet.updateIsAlive();
             }
+            managePetViews();
             handler.postDelayed(timer, 500);
             if(!myPet.getIsAlive()){
                 handler.removeCallbacks(timer);
@@ -378,7 +379,6 @@ public class Game extends AppCompatActivity {
         }
     };
 
-    //TODO Bilder für die Kaufoptionen einfügen
     /**Shop to buy food, coffee and potions*/
     public void shopMenu(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
@@ -392,6 +392,7 @@ public class Game extends AppCompatActivity {
                     myPet.updateMoney(-10);
                     textViewFood.setText(myPet.getFood()+"");
                     textViewMoney.setText(myPet.getMoney() + "€");
+                    checkResource();
                 }
             }
         });
@@ -403,6 +404,7 @@ public class Game extends AppCompatActivity {
                     myPet.updateMoney(-50);
                     textViewCoffee.setText(myPet.getCoffee()+"");
                     textViewMoney.setText(myPet.getMoney() + "€");
+                    checkResource();
                 }
             }
         });
@@ -414,32 +416,12 @@ public class Game extends AppCompatActivity {
                     myPet.updateMoney(-30);
                     textViewPotion.setText(myPet.getPotion()+"");
                     textViewMoney.setText(myPet.getMoney() + "€");
+                    checkResource();
                 }
             }
         });
-
 
         alertDialog.create().show();
-
-        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Shop");
-        builder.setItems(new CharSequence[]
-                        {"Futter", "Kaffee", "Heiltrank"}, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case 0:
-                        System.out.println("Futter gekauft");
-                        break;
-                    case 1:
-                        System.out.println("Kaffee gekauft");
-                        break;
-                    case 2:
-                        System.out.println("Heiltrank gekauft");
-                        break;
-                }
-            }
-        });
-        builder.create().show();*/
     }
 
     public void handleDeath(){
@@ -458,8 +440,7 @@ public class Game extends AppCompatActivity {
     }
 
     public void saveGame(){
-        //SharedPreferences save = getSharedPreferences("save", 0);
-        SharedPreferences save = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences save = getSharedPreferences("save", 0);
         SharedPreferences.Editor editor = save.edit();
         editor.putInt("hunger", myPet.getHunger());
         editor.putInt("cleanliness", myPet.getCleanliness());
@@ -473,28 +454,36 @@ public class Game extends AppCompatActivity {
         editor.putInt("potion",myPet.getPotion());
         editor.putInt("coffee",myPet.getCoffee());
 
-        editor.commit();
+        editor.putInt("fun",0);
+        editor.putInt("price", 0);
+
+        editor.apply();
+        //editor.commit();
     }
 
     public void loadGame(){
-        //SharedPreferences save = getSharedPreferences("save", 0);
-        SharedPreferences save = PreferenceManager.getDefaultSharedPreferences(this);
-        myPet.updateHunger(save.getInt("hunger",100));
-        myPet.updateEnergy(save.getInt("energy",100));
-        myPet.updateCleanliness(save.getInt("cleanliness",100));
-        myPet.updateHappiness(save.getInt("happiness",100));
-        myPet.updateHealth(save.getInt("health",100));
+        SharedPreferences save = getSharedPreferences("save", 0);
+        SharedPreferences.Editor editor = save.edit();
+        myPet.updateHunger(save.getInt("hunger",0));
+        myPet.updateEnergy(save.getInt("energy",0));
+        myPet.updateCleanliness(save.getInt("cleanliness",0));
+        myPet.updateHappiness(save.getInt("happiness",0)+(save.getInt("fun",0)));
+        myPet.updateHealth(save.getInt("health",0));
         myPet.setName(save.getString("name","unknown"));
-        myPet.updateMoney(save.getInt("money",0));
+        myPet.updateMoney(save.getInt("money",0)+(save.getInt("price",0)));
         myPet.updateFood(save.getInt("food",0));
         myPet.updatePotion(save.getInt("potion",0));
         myPet.updateCoffee(save.getInt("coffee",0));
 
-        SharedPreferences.Editor editor = save.edit();
-        myPet.updateMoney(save.getInt("price",0));
         textViewMoney.setText(myPet.getMoney()+"€");
+
+        System.out.println("price: "+save.getInt("price",0));
+        System.out.println("money: "+myPet.getMoney());
+
+        editor.putInt("fun",0);
         editor.putInt("price", 0);
-        textViewMoney.setText(myPet.getMoney()+"€");
+        editor.apply();
+        //editor.commit();
     }
 
     public void newGame(){
@@ -525,29 +514,24 @@ public class Game extends AppCompatActivity {
         myPet.updateCoffee(0);
     }
 
-    //long startTime = SystemClock.elapsedRealtime();
     public void onPause() {
-        long startTime = SystemClock.elapsedRealtime();
-        //SharedPreferences save = getSharedPreferences("save", 0);
-        SharedPreferences save = PreferenceManager.getDefaultSharedPreferences(this);
+        //currentTime minis
+        //double für Zeit
+        SharedPreferences save = getSharedPreferences("save", 0);
         SharedPreferences.Editor editor = save.edit();
+        long startTime = System.currentTimeMillis();
         editor.putLong("startTime", startTime );
-        editor.commit();
+        editor.apply();
+        //editor.commit();
         super.onPause();
     }
 
     public void onResume() {
-        //SharedPreferences save = getSharedPreferences("save", 0);
-        SharedPreferences save = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences save = getSharedPreferences("save", 0);
         long startTime = save.getLong("startTime", 0);
-        long elapsedTime = SystemClock.elapsedRealtime() - startTime;
-
-        //SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-        //String timeFormatS = timeFormat.format(SystemClock.elapsedRealtime() - startTime);
+        long elapsedTime = System.currentTimeMillis() - startTime;
 
         System.out.println(elapsedTime);
-        //System.out.println(timeFormatS);
-
         super.onResume();
     }
 

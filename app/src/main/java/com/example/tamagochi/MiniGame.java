@@ -19,7 +19,9 @@ import java.util.List;
 
 public class MiniGame extends AppCompatActivity {
 
-    int price = 0;
+    int price;
+    int fun;
+
     private TextView textViewPrice;
 
     private ImageView cup1, cup2, cup3;
@@ -33,6 +35,8 @@ public class MiniGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_minigame);
+
+        price = 0;
 
         cups = new ArrayList<>();
         cups.add(01);
@@ -50,6 +54,7 @@ public class MiniGame extends AppCompatActivity {
             public void onClick(View v) {
                 if(cups.get(0)==01) {
                     cup1.setImageResource(R.drawable.cupright);
+                    fun+=50;
                     price+=50;
                     textViewPrice.setText("+"+price+"€");
                     textViewPrice.setVisibility(View.VISIBLE);
@@ -81,6 +86,7 @@ public class MiniGame extends AppCompatActivity {
             public void onClick(View v) {
                 if(cups.get(1)==01) {
                     cup2.setImageResource(R.drawable.cupright);
+                    fun+=50;
                     price+=50;
                     textViewPrice.setText("+"+price+"€");
                     textViewPrice.setVisibility(View.VISIBLE);
@@ -112,6 +118,7 @@ public class MiniGame extends AppCompatActivity {
             public void onClick(View v) {
                 if (cups.get(2) == 01) {
                     cup3.setImageResource(R.drawable.cupright);
+                    fun+=50;
                     price+=50;
                     textViewPrice.setText("+"+price+"€");
                     textViewPrice.setVisibility(View.VISIBLE);
@@ -142,10 +149,11 @@ public class MiniGame extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                SharedPreferences save = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences save = getSharedPreferences("save", 0);
                 SharedPreferences.Editor editor = save.edit();
+                editor.putInt("fun",fun);
                 editor.putInt("price", price);
-
+                editor.apply();
                 //finish();
                 Intent intent = new Intent(MiniGame.this, Game.class);
                 startActivity(intent);
@@ -169,6 +177,11 @@ public class MiniGame extends AppCompatActivity {
     }
 
     public void onBackPressed(){
+        SharedPreferences save = getSharedPreferences("save", 0);
+        SharedPreferences.Editor editor = save.edit();
+        editor.putInt("fun",fun);
+        editor.putInt("price", price);
+        editor.apply();
         //finish();
         Intent intent = new Intent(MiniGame.this, Game.class);
         startActivity(intent);
