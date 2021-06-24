@@ -35,7 +35,7 @@ public class Game extends AppCompatActivity {
     /**Counter and Interval to reduce Pet-values*/
     int counter = 0;
     int counter2 = 0;
-    int interval = 1;
+    int interval = 5;
 
     /**TextViews*/
     private TextView textViewRoom;
@@ -477,9 +477,6 @@ public class Game extends AppCompatActivity {
 
         textViewMoney.setText(myPet.getMoney()+"€");
 
-        System.out.println("price: "+save.getInt("price",0));
-        System.out.println("money: "+myPet.getMoney());
-
         editor.putInt("fun",0);
         editor.putInt("price", 0);
         editor.apply();
@@ -515,14 +512,11 @@ public class Game extends AppCompatActivity {
     }
 
     public void onPause() {
-        //currentTime minis
-        //double für Zeit
         SharedPreferences save = getSharedPreferences("save", 0);
         SharedPreferences.Editor editor = save.edit();
         long startTime = System.currentTimeMillis();
         editor.putLong("startTime", startTime );
         editor.apply();
-        //editor.commit();
         super.onPause();
     }
 
@@ -531,7 +525,14 @@ public class Game extends AppCompatActivity {
         long startTime = save.getLong("startTime", 0);
         long elapsedTime = System.currentTimeMillis() - startTime;
 
-        System.out.println(elapsedTime);
+        int timeFormat = (int)(elapsedTime/1000)/interval;
+
+        myPet.updateHunger(- timeFormat);
+        myPet.updateEnergy(- timeFormat);
+        myPet.updateCleanliness(- timeFormat);
+        myPet.updateHappiness(- timeFormat);
+        updateProgressbarAll();
+
         super.onResume();
     }
 
