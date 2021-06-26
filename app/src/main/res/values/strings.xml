@@ -2,9 +2,4 @@
     <string name="app_name">Kiwi</string>
 
     <string name="tvRoom">Raum</string>
-    <string name="tvBedroom">Schlafzimmer</string>
-    <string name="tvKitchen">Küche</string>
-    <string name="tvBathroom">Badezimmer</string>
-    <string name="tvPlayroom">Spielzimmer</string>
-
 </resources>

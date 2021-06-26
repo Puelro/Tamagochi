@@ -13,15 +13,15 @@ public class Pet {
     private int cleanliness;
     private int happiness;
     private int health;
-    private int awayTime;
     private boolean isAlive;
 
+    /** values for finite Resources*/
     private int food;
     private int potion;
     private int coffee;
     private int money;
 
-    /**empty Constructor*/
+    /**Constructor*/
     public Pet(){
         hunger = 0;
         energy = 0;
@@ -30,7 +30,10 @@ public class Pet {
         health = 0;
     }
 
-    /**Methods to update values*/
+    /**
+     * Methods to update and set values
+     * making sure the Pets values stay between 0 an 100
+     */
     public void setName(String _name){
         name = _name;
     }
@@ -53,7 +56,6 @@ public class Pet {
             energy += sleep;
     }
 
-    //TODO waschen konzept
     public void updateCleanliness(int soap){
         if(cleanliness + soap > 100)
             cleanliness = 100;
@@ -87,14 +89,6 @@ public class Pet {
         }else
             isAlive = false;
         return isAlive;
-    }
-
-    //TODO AwayTime-Faktor ausrechenen
-    public void updateAwayTime(int time){
-        updateCleanliness(-time);
-        updateEnergy(-time);
-        updateHappiness(-time);
-        updateHunger(-time);
     }
 
     public void updateFood(int _food){
@@ -132,7 +126,6 @@ public class Pet {
     public int getCleanliness() { return cleanliness; }
     public int getHappiness() { return happiness; }
     public int getHealth() { return health; }
-    public int getAwayTime() { return awayTime; }
     public boolean getIsAlive() { return isAlive; }
     public int getFood() { return food; }
     public int getPotion() { return potion; }

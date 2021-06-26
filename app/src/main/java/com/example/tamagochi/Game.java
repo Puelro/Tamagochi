@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -32,10 +30,16 @@ public class Game extends AppCompatActivity {
     /**checks if Pet is asleep*/
     private boolean isAsleep = false;
 
-    /**Counter and Interval to reduce Pet-values*/
+    /**counter for timer to decrease values*/
     int counter = 0;
-    int counter2 = 0;
+    /**manages how fast values decrease over time*/
     int interval = 5;
+
+    /**counter for sleep timer*/
+    int counter2 = 0;
+    /**manages how fast energy increases when sleeping*/
+    int interval2 = 1;
+
 
     /**TextViews*/
     private TextView textViewRoom;
@@ -48,17 +52,17 @@ public class Game extends AppCompatActivity {
     /**LinearLayout to change the Background*/
     LinearLayout root;
 
-    /**Buttons*/
+    /**Buttons to navigate through rooms*/
     private ImageButton buttonBedroomRight;
     private ImageButton buttonBathroomRight;
     private ImageButton buttonPlayroomRight;
     private ImageButton buttonKitchenRight;
-
     private ImageButton buttonBedroomLeft;
     private ImageButton buttonBathroomLeft;
     private ImageButton buttonPlayroomLeft;
     private ImageButton buttonKitchenLeft;
 
+    /**Buttons to interact with Pet*/
     private ImageButton buttonMenu;
     private ImageButton buttonFood;
     private ImageButton buttonCoffee;
@@ -69,19 +73,25 @@ public class Game extends AppCompatActivity {
     private ImageButton buttonPet;
     private ImageButton buttonWash;
 
+    /**ImageViews to indicate Pets current state*/
     private ImageView tired;
     private ImageView dirty;
     private ImageView sleeping;
     private ImageView sad;
 
+    /**
+     * initiate values
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        /**initiate Pet*/
         myPet = new Pet();
 
-        /**initialize TextViews*/
+        /**initiate TextViews*/
         textViewRoom = findViewById(R.id.tvRoom);
         textViewName = findViewById(R.id.tvName);
         textViewMoney = findViewById(R.id.tvMoney);
@@ -90,28 +100,33 @@ public class Game extends AppCompatActivity {
         textViewPotion = findViewById(R.id.tvPotion);
         root=(LinearLayout)findViewById(R.id.root);
 
+        //check if Pet is still Alive
         SharedPreferences save = getSharedPreferences("save", 0);
         boolean alive = save.getBoolean("isAlive",false);
+        //if Pet is still Alive
         if(alive){
+            //load values saved in SharedPreferences
             loadGame();
         }
+        //if Pet is dead or was never created
         else{
+            //start a new Game with default values
             newGame();
         }
         myPet.updateIsAlive();
         saveGame();
 
+        /**set TextViews to Pets values*/
         textViewName.setText(myPet.getName());
         textViewMoney.setText(myPet.getMoney() + "€");
         textViewFood.setText(myPet.getFood()+"");
         textViewCoffee.setText(myPet.getCoffee()+"");
         textViewPotion.setText(myPet.getPotion()+"");
 
-        /**initialize ProgressBarManager*/
+        /**initiate ProgressBarManager*/
         progressBarManager = new ProgressBarManager(this);
-        progressBarManager.updateProgressbarHunger(30);
 
-        /**initialise ImageViews for Pets state*/
+        /**initiate ImageViews for Pets state*/
         tired = findViewById(R.id.ivTired);
         dirty = findViewById(R.id.ivDirty);
         sad = findViewById(R.id.ivSad);
@@ -127,7 +142,6 @@ public class Game extends AppCompatActivity {
         buttonMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //finish();
                 Intent intent = new Intent(Game.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -197,9 +211,10 @@ public class Game extends AppCompatActivity {
                 if(myPet.getHunger() < 100) {
                     myPet.updateHunger(20);
                     updateProgressbarAll();
+                    //reduce food resources
                     myPet.updateFood(-1);
                     textViewFood.setText(myPet.getFood()+"");
-                    checkResource();
+                    manageResource();
                 }
             }
         });
@@ -212,9 +227,10 @@ public class Game extends AppCompatActivity {
                 if(myPet.getEnergy() < 100) {
                     myPet.updateEnergy(100);
                     updateProgressbarAll();
+                    //reduce coffee resources
                     myPet.updateCoffee(-1);
                     textViewCoffee.setText(myPet.getCoffee()+"");
-                    checkResource();
+                    manageResource();
                 }
             }
         });
@@ -227,9 +243,10 @@ public class Game extends AppCompatActivity {
                 if(myPet.getHealth() < 100) {
                     myPet.updateHealth(40);
                     updateProgressbarAll();
+                    //reduce potion resources
                     myPet.updatePotion(-1);
                     textViewPotion.setText(myPet.getPotion()+"");
-                    checkResource();
+                    manageResource();
                 }
             }
         });
@@ -250,6 +267,7 @@ public class Game extends AppCompatActivity {
             public void onClick(View v) {
                 if(isAsleep == false){
                     isAsleep = true;
+                    //start timer to increase energy
                     timerSleep.run();
                 }
                 else {
@@ -263,7 +281,6 @@ public class Game extends AppCompatActivity {
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
                 Intent intent = new Intent(Game.this, MiniGame.class);
                 startActivity(intent);
             }
@@ -291,7 +308,7 @@ public class Game extends AppCompatActivity {
 
         /**The Game starts in the Kitchen*/
         toKitchen();
-        checkResource();
+        manageResource();
     }
 
     /**Timer-Handler to reduce Pet-Values*/
@@ -308,7 +325,7 @@ public class Game extends AppCompatActivity {
                 myPet.updateHappiness(-1);
                 updateProgressbarAll();
                 counter = 0;
-                //health decreases if three out of four values are at 0
+                //decrease health if three out of four values are at 0
                 if(threeOutOfFourValuesDown()){
                     myPet.updateHealth(-1);
                 }
@@ -316,7 +333,9 @@ public class Game extends AppCompatActivity {
             }
             managePetViews();
             handler.postDelayed(timer, 500);
+            //if health reached 0 and Pet died
             if(!myPet.getIsAlive()){
+                //stop timer
                 handler.removeCallbacks(timer);
                 handleDeath();
             }
@@ -324,6 +343,7 @@ public class Game extends AppCompatActivity {
         }
     };
 
+    /**indicate the pets current state via overlays*/
     public void managePetViews(){
         if(myPet.getEnergy() > 40){
             tired.setVisibility(View.INVISIBLE);
@@ -364,7 +384,7 @@ public class Game extends AppCompatActivity {
     private Runnable timerSleep = new Runnable() {
         @Override
         public void run() {
-            if(counter2 < interval){
+            if(counter2 < interval2){
                 counter2++;
             }else if(myPet.getEnergy() < 100){
                 myPet.updateEnergy(3);
@@ -372,7 +392,9 @@ public class Game extends AppCompatActivity {
                 counter2 = 0;
             }
             handler2.postDelayed(timerSleep, 500);
+            //if Energy is at 100 or Pet wakes up
             if(myPet.getEnergy()>=100||!isAsleep){
+                //stop timer
                 handler2.removeCallbacks(timerSleep);
                 isAsleep = false;
             }
@@ -387,36 +409,45 @@ public class Game extends AppCompatActivity {
 
         alertDialog.setNeutralButton("Futter 10€      ", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                //if money is sufficient
                 if(myPet.getMoney() >= 10 ) {
+                    //increase food
                     myPet.updateFood(1);
+                    //decrease money
                     myPet.updateMoney(-10);
                     textViewFood.setText(myPet.getFood()+"");
                     textViewMoney.setText(myPet.getMoney() + "€");
-                    checkResource();
+                    manageResource();
                 }
             }
         });
 
         alertDialog.setPositiveButton("Kaffee 50€   ", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                //if money is sufficient
                 if(myPet.getMoney() >= 50 ) {
+                    //increase coffee
                     myPet.updateCoffee(1);
+                    //decrease money
                     myPet.updateMoney(-50);
                     textViewCoffee.setText(myPet.getCoffee()+"");
                     textViewMoney.setText(myPet.getMoney() + "€");
-                    checkResource();
+                    manageResource();
                 }
             }
         });
 
         alertDialog.setNegativeButton("Heiltrank 30€      ", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                //if money is sufficient
                 if(myPet.getMoney() >= 30 ) {
+                    //increase potion
                     myPet.updatePotion(1);
+                    //decrease money
                     myPet.updateMoney(-30);
                     textViewPotion.setText(myPet.getPotion()+"");
                     textViewMoney.setText(myPet.getMoney() + "€");
-                    checkResource();
+                    manageResource();
                 }
             }
         });
@@ -424,6 +455,7 @@ public class Game extends AppCompatActivity {
         alertDialog.create().show();
     }
 
+    /**handles the Pets death*/
     public void handleDeath(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setMessage(myPet.getName()+" ist gestorben");
@@ -439,6 +471,7 @@ public class Game extends AppCompatActivity {
         saveGame();
     }
 
+    /**save the Pets current values with Shared Preferences*/
     public void saveGame(){
         SharedPreferences save = getSharedPreferences("save", 0);
         SharedPreferences.Editor editor = save.edit();
@@ -458,9 +491,9 @@ public class Game extends AppCompatActivity {
         editor.putInt("price", 0);
 
         editor.apply();
-        //editor.commit();
     }
 
+    /**load the Pets values from Shared Preferences*/
     public void loadGame(){
         SharedPreferences save = getSharedPreferences("save", 0);
         SharedPreferences.Editor editor = save.edit();
@@ -480,26 +513,31 @@ public class Game extends AppCompatActivity {
         editor.putInt("fun",0);
         editor.putInt("price", 0);
         editor.apply();
-        //editor.commit();
     }
 
+    /**set values for new Pet*/
     public void newGame(){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setMessage("geben deinem Kiwi einen Namen");
+        //EditText for new Pets name
         EditText input = new EditText(this);
         alertDialog.setCancelable(false);
         alertDialog.setView(input);
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                //set the new given name
                 myPet.setName(input.getText().toString());
+                //if no name was given
                 if(myPet.getName().length() == 0)
+                    //give default-name
                     myPet.setName("Kiwi");
                 textViewName.setText(myPet.getName());
             }
         });
         alertDialog.show();
 
+        //give the Pet default values*/
         myPet.updateHunger(100);
         myPet.updateEnergy(100);
         myPet.updateCleanliness(100);
@@ -511,6 +549,7 @@ public class Game extends AppCompatActivity {
         myPet.updateCoffee(0);
     }
 
+    /**save current time when game is paused*/
     public void onPause() {
         SharedPreferences save = getSharedPreferences("save", 0);
         SharedPreferences.Editor editor = save.edit();
@@ -520,27 +559,42 @@ public class Game extends AppCompatActivity {
         super.onPause();
     }
 
+    /**decrease Pets values according to passed time since the game was closed*/
     public void onResume() {
-        SharedPreferences save = getSharedPreferences("save", 0);
-        long startTime = save.getLong("startTime", 0);
-        long elapsedTime = System.currentTimeMillis() - startTime;
+        if(myPet.getIsAlive()) {
+            SharedPreferences save = getSharedPreferences("save", 0);
+            long startTime = save.getLong("startTime", 0);
+            //calculate passed time since the game was last closed in milliseconds
+            long elapsedTime = System.currentTimeMillis() - startTime;
 
-        int timeFormat = (int)(elapsedTime/1000)/interval;
+            //calculate the exact value by which the Pets values have to be decreased
+            int timeFormat = (int) (elapsedTime / 1000) / interval;
 
-        myPet.updateHunger(- timeFormat);
-        myPet.updateEnergy(- timeFormat);
-        myPet.updateCleanliness(- timeFormat);
-        myPet.updateHappiness(- timeFormat);
-        updateProgressbarAll();
+            //if three out of four values where at 0 before the app was closed
+            if (threeOutOfFourValuesDown()) {
+                //decrease health
+                myPet.updateHealth(-timeFormat);
+            }
 
+            //decrease Pets values
+            myPet.updateHunger(-timeFormat);
+            myPet.updateEnergy(-timeFormat);
+            myPet.updateCleanliness(-timeFormat);
+            myPet.updateHappiness(-timeFormat);
+
+            updateProgressbarAll();
+        }
         super.onResume();
     }
 
-    public void checkResource(){
+    /**manages the Buttons for finite Resources*/
+    public void manageResource(){
         if(myPet.getFood() > 0){
             buttonFood.setEnabled(true);
             buttonFood.setAlpha(1f);
+        //if food is at 0
         }else{
+            //disable button
             buttonFood.setEnabled(false);
             buttonFood.setAlpha(0.7f);
         }
@@ -548,7 +602,9 @@ public class Game extends AppCompatActivity {
         if(myPet.getCoffee() > 0){
             buttonCoffee.setEnabled(true);
             buttonCoffee.setAlpha(1f);
+        //if coffee is at 0
         }else{
+            //disable button
             buttonCoffee.setEnabled(false);
             buttonCoffee.setAlpha(0.7f);
         }
@@ -556,12 +612,15 @@ public class Game extends AppCompatActivity {
         if(myPet.getPotion() > 0){
             buttonPotion.setEnabled(true);
             buttonPotion.setAlpha(1f);
+        //if potion is at 0
         }else{
+            //disable button
             buttonPotion.setEnabled(false);
             buttonPotion.setAlpha(0.7f);
         }
     }
 
+    /**makes all Room Buttons invisible*/
     public void makeAllRoomButtonsInvisible(){
         buttonKitchenRight.setVisibility(View.INVISIBLE);
         buttonBedroomRight.setVisibility(View.INVISIBLE);
@@ -573,6 +632,7 @@ public class Game extends AppCompatActivity {
         buttonPlayroomLeft.setVisibility(View.INVISIBLE);
     }
 
+    /**makes all interaction Buttons invisible*/
     public void makeAllInteractionButtonsInvisible(){
         buttonFood.setVisibility(View.INVISIBLE);
         buttonSleep.setVisibility(View.INVISIBLE);
@@ -588,6 +648,7 @@ public class Game extends AppCompatActivity {
         textViewPotion.setVisibility(View.INVISIBLE);
     }
 
+    /**update all Progressbars*/
     public void updateProgressbarAll(){
         progressBarManager.updateProgressbarHunger(myPet.getHunger());
         progressBarManager.updateProgressbarEnergy(myPet.getEnergy());
@@ -596,7 +657,9 @@ public class Game extends AppCompatActivity {
         progressBarManager.updateProgressbarHealth(myPet.getHealth());
     }
 
+    /**manages Navigation to Kitchen*/
     public void toKitchen(){
+        //only make Views and Buttons visible that are relevant to the room
         makeAllRoomButtonsInvisible();
         buttonBathroomRight.setVisibility(View.VISIBLE);
         buttonBedroomLeft.setVisibility(View.VISIBLE);
@@ -610,48 +673,62 @@ public class Game extends AppCompatActivity {
         textViewCoffee.setVisibility(View.VISIBLE);
         textViewPotion.setVisibility(View.VISIBLE);
 
+        //set Background and textView to Kitchen
         textViewRoom.setText("Küche");
         root.setBackgroundResource(R.drawable.kitchen);
+        //wake Pet up
         isAsleep = false;
     }
 
+    /**manages Navigation to Bedroom*/
     public void toBedroom(){
+        //only make Views and Buttons visible that are relevant to the room
         makeAllRoomButtonsInvisible();
         buttonKitchenRight.setVisibility(View.VISIBLE);
         buttonPlayroomLeft.setVisibility(View.VISIBLE);
         makeAllInteractionButtonsInvisible();
         buttonSleep.setVisibility(View.VISIBLE);
+
+        //set Background and textView to Bedroom
         textViewRoom.setText("Schlafzimmer");
         root.setBackgroundResource(R.drawable.bedroom);
     }
 
+    /**manages Navigation to Bathroom*/
     public void toBathroom(){
+        //only make Views and Buttons visible that are relevant to the room
         makeAllRoomButtonsInvisible();
         buttonKitchenLeft.setVisibility(View.VISIBLE);
         buttonPlayroomRight.setVisibility(View.VISIBLE);
         makeAllInteractionButtonsInvisible();
         buttonWash.setVisibility(View.VISIBLE);
+
+        //set Background and textView to Bathroom
         textViewRoom.setText("Badezimmer");
         root.setBackgroundResource(R.drawable.bathroom);
-        isAsleep = false;
     }
 
+    /**manages Navigation to Playroom*/
     public void toPlayroom(){
+        //only make Views and Buttons visible that are relevant to the room
         makeAllRoomButtonsInvisible();
         buttonBathroomLeft.setVisibility(View.VISIBLE);
         buttonBedroomRight.setVisibility(View.VISIBLE);
         makeAllInteractionButtonsInvisible();
         buttonPlay.setVisibility(View.VISIBLE);
         buttonPet.setVisibility(View.VISIBLE);
+
+        //set Background and textView to Playroom
         textViewRoom.setText("Spielzimmer");
         root.setBackgroundResource(R.drawable.playroom);
+        //wake Pet up
         isAsleep = false;
     }
 
+    /**go back to Main Menu*/
     @Override
     public void onBackPressed() {
         saveGame();
-        //finish();
         Intent intent = new Intent(Game.this,MainActivity.class);
         startActivity(intent);
     }

@@ -18,7 +18,7 @@ public class ProgressBarManager {
 
     /**
      * Constructor
-     * initialize ProgressBars for Pet-Values
+     * initiate ProgressBars for Pet-Values
      * @param _activity for which the ProgressBars are used
      */
     public ProgressBarManager(Activity _activity ){
