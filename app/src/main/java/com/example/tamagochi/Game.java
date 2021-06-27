@@ -1,5 +1,6 @@
 package com.example.tamagochi;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -418,6 +420,8 @@ public class Game extends AppCompatActivity {
                     textViewFood.setText(myPet.getFood()+"");
                     textViewMoney.setText(myPet.getMoney() + "€");
                     manageResource();
+                }else{
+                    Toast.makeText(getApplicationContext(),"nicht genug Geld",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -433,6 +437,8 @@ public class Game extends AppCompatActivity {
                     textViewCoffee.setText(myPet.getCoffee()+"");
                     textViewMoney.setText(myPet.getMoney() + "€");
                     manageResource();
+                }else{
+                    Toast.makeText(getApplicationContext(),"nicht genug Geld",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -448,6 +454,8 @@ public class Game extends AppCompatActivity {
                     textViewPotion.setText(myPet.getPotion()+"");
                     textViewMoney.setText(myPet.getMoney() + "€");
                     manageResource();
+                }else{
+                    Toast.makeText(getApplicationContext(),"nicht genug Geld",Toast.LENGTH_SHORT).show();
                 }
             }
         });
