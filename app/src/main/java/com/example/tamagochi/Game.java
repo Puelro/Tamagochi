@@ -561,8 +561,14 @@ public class Game extends AppCompatActivity {
 
     /**decrease Pets values according to passed time since the game was closed*/
     public void onResume() {
-        if(myPet.getIsAlive()) {
-            SharedPreferences save = getSharedPreferences("save", 0);
+        SharedPreferences save = getSharedPreferences("save", 0);
+        SharedPreferences.Editor editor = save.edit();
+        //do not execute content of OnResume when the App is startet for the first time
+        boolean firstTime = save.getBoolean("firstTime",true);
+        if(firstTime == true){
+            editor.putBoolean("firstTime",false);
+            editor.apply();
+        }else {
             long startTime = save.getLong("startTime", 0);
             //calculate passed time since the game was last closed in milliseconds
             long elapsedTime = System.currentTimeMillis() - startTime;
