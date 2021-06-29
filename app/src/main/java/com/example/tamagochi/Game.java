@@ -563,6 +563,7 @@ public class Game extends AppCompatActivity {
         SharedPreferences.Editor editor = save.edit();
         long startTime = System.currentTimeMillis();
         editor.putLong("startTime", startTime );
+        editor.putBoolean("isAsleep",isAsleep);
         editor.apply();
         super.onPause();
     }
@@ -582,19 +583,25 @@ public class Game extends AppCompatActivity {
             long elapsedTime = System.currentTimeMillis() - startTime;
 
             //calculate the exact value by which the Pets values have to be decreased
-            int timeFormat = (int) (elapsedTime / 1000) / interval;
+            int timeToPointsFactor = (int) (elapsedTime / 1000) / interval;
 
             //if three out of four values where at 0 before the app was closed
             if (threeOutOfFourValuesDown()) {
                 //decrease health
-                myPet.updateHealth(-timeFormat);
+                myPet.updateHealth(-timeToPointsFactor);
             }
 
             //decrease Pets values
-            myPet.updateHunger(-timeFormat);
-            myPet.updateEnergy(-timeFormat);
-            myPet.updateCleanliness(-timeFormat);
-            myPet.updateHappiness(-timeFormat);
+            myPet.updateHunger(-timeToPointsFactor);
+            myPet.updateCleanliness(-timeToPointsFactor);
+            myPet.updateHappiness(-timeToPointsFactor);
+
+            //only decrease Energy if Pet is not asleep
+            if(save.getBoolean("isAsleep",false)==true){
+                myPet.updateEnergy(timeToPointsFactor*3);
+            }else {
+                myPet.updateEnergy(-timeToPointsFactor);
+            }
 
             updateProgressbarAll();
         }
