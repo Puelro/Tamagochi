@@ -35,7 +35,9 @@
                 android:gravity="center_horizontal|center_vertical"
                 android:text="0€"
                 android:textColor="@android:color/white"
-                app:autoSizeTextType="uniform" />
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="30sp"
+                app:autoSizeMinTextSize="20sp"/>
             <!--app:autoSizeTextType="uniform" android:textSize="36sp" -->
 
             <ProgressBar
