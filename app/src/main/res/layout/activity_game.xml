@@ -38,83 +38,71 @@
                 app:autoSizeTextType="uniform"
                 app:autoSizeMaxTextSize="30sp"
                 app:autoSizeMinTextSize="20sp"/>
-            <!--app:autoSizeTextType="uniform" android:textSize="36sp" -->
 
             <ProgressBar
                 android:id="@+id/progressBarHunger"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:indeterminateOnly="false"
                 android:padding="10dp"
                 android:progressDrawable="@drawable/progressbar"
-                tools:progress="60"></ProgressBar>
+                tools:progress="60"/>
 
             <ProgressBar
                 android:id="@+id/progressBarEnergy"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:indeterminateOnly="false"
                 android:padding="10dp"
                 android:progressDrawable="@drawable/progressbar"
-                tools:progress="60"></ProgressBar>
+                tools:progress="60"/>
 
             <ProgressBar
                 android:id="@+id/progressBarCleanliness"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:indeterminateOnly="false"
                 android:padding="10dp"
                 android:progressDrawable="@drawable/progressbar"
-                tools:progress="60"></ProgressBar>
+                tools:progress="60"/>
 
             <ProgressBar
                 android:id="@+id/progressBarHappiness"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:indeterminateOnly="false"
                 android:padding="10dp"
                 android:progressDrawable="@drawable/progressbar"
-                tools:progress="60"></ProgressBar>
+                tools:progress="60"/>
 
             <ProgressBar
                 android:id="@+id/progressBarHealth"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:indeterminateOnly="false"
                 android:padding="10dp"
                 android:progressDrawable="@drawable/progressbar"
-                tools:progress="60"></ProgressBar>
+                tools:progress="60"/>
 
             <ImageButton
                 android:id="@+id/btnMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:background="@null"
@@ -132,48 +120,43 @@
                 android:id="@+id/ivHunger"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_marginStart="75dp"
                 android:layout_marginLeft="75dp"
                 app:srcCompat="@drawable/hunger" />
-            <!--Quelle: https://icon-icons.com/download/134309/PNG/64/-->
+                <!--Quelle: https://icon-icons.com/download/134309/PNG/64/-->
 
             <ImageView
                 android:id="@+id/ivEnergy"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:layout_marginStart="47dp"
                 android:layout_marginLeft="47dp"
                 android:layout_marginTop="2dp"
                 app:srcCompat="@drawable/energy" />
-            <!--Quelle: https://icon-icons.com/download/143566/PNG/64/-->
+                <!--Quelle: https://icon-icons.com/download/143566/PNG/64/-->
 
             <ImageView
                 android:id="@+id/ivCleanliness"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_marginStart="45dp"
                 android:layout_marginLeft="45dp"
                 app:srcCompat="@drawable/cleanliness" />
-            <!--Quelle: https://icon-icons.com/download/64254/PNG/64/-->
+                <!--Quelle: https://icon-icons.com/download/64254/PNG/64/-->
 
             <ImageView
                 android:id="@+id/ivHappiness"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_marginStart="49dp"
                 android:layout_marginLeft="49dp"
                 android:layout_marginTop="1dp"
                 app:srcCompat="@drawable/happiness" />
-            <!--Quelle: https://icon-icons.com/download/73409/PNG/64/-->
+                <!--Quelle: https://icon-icons.com/download/73409/PNG/64/-->
 
             <ImageView
                 android:id="@+id/ivHealth"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_marginStart="45dp"
                 android:layout_marginLeft="45dp"
                 app:srcCompat="@drawable/health" />
-            <!--Quelle: https://icon-icons.com/download/173828/PNG/64/-->
+                <!--Quelle: https://icon-icons.com/download/173828/PNG/64/-->
         </LinearLayout>
 
         <LinearLayout
@@ -246,15 +229,15 @@
             android:background="@null"
             app:srcCompat="@drawable/left" />
 
-        <ImageButton
-            android:id="@+id/btnKitchenRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
-            android:layout_marginRight="70dp"
-            android:layout_weight="1"
-            android:background="@null"
-            app:srcCompat="@drawable/right" />
+            <ImageButton
+                android:id="@+id/btnKitchenRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:layout_weight="1"
+                android:background="@null"
+                app:srcCompat="@drawable/right" />
         </LinearLayout>
 
         <LinearLayout
@@ -298,7 +281,6 @@
             android:id="@+id/ivPet"
             android:layout_width="400dp"
             android:layout_height="400dp"
-            android:layout_marginStart="100dp"
             android:layout_marginLeft="100dp"
             android:layout_marginTop="350dp"
             android:layout_weight="1"
@@ -308,7 +290,6 @@
             android:id="@+id/ivDirty"
             android:layout_width="250dp"
             android:layout_height="250dp"
-            android:layout_marginStart="150dp"
             android:layout_marginLeft="150dp"
             android:layout_marginTop="380dp"
             android:layout_weight="1"
@@ -318,7 +299,6 @@
             android:id="@+id/ivSad"
             android:layout_width="125dp"
             android:layout_height="125dp"
-            android:layout_marginStart="258dp"
             android:layout_marginLeft="258dp"
             android:layout_marginTop="352dp"
             android:layout_weight="1"
@@ -328,7 +308,6 @@
             android:id="@+id/ivTired"
             android:layout_width="125dp"
             android:layout_height="125dp"
-            android:layout_marginStart="263dp"
             android:layout_marginLeft="263dp"
             android:layout_marginTop="382dp"
             android:layout_weight="1"
@@ -338,7 +317,6 @@
             android:id="@+id/ivSleeping"
             android:layout_width="123dp"
             android:layout_height="123dp"
-            android:layout_marginStart="257dp"
             android:layout_marginLeft="257dp"
             android:layout_marginTop="384dp"
             android:layout_weight="1"
